@@ -1,5 +1,16 @@
 # SkyBooker - Plateforme de Réservation de Billets d'Avion
 
+# Liste Membres
+
+- Mouhcine Imaoun/Pseudo: Mouhcine212
+- Andrea Borges/Pseudo:Cvgirl
+- Bogdan Alexandru/Pseudo:bogdan-b-alexandru
+- Bijoy Dey/Pseudo: Pas encore inscrit
+- Abdurrahmane/Zeguendri Pseudo:CodeAbdou
+- Jonathan/St-Louis Pseudo:JonathanStLouis
+
+
+
 ## Description du Projet
 Plateforme complète permettant aux voyageurs de rechercher, réserver et gérer leurs billets d'avion. Le système comprend une application mobile pour les passagers, une interface web pour les compagnies aériennes ainsi que pour les passagers, et une API REST pour la gestion centralisée des données.
 
@@ -17,14 +28,17 @@ Plateforme complète permettant aux voyageurs de rechercher, réserver et gérer
 - **Librairie possible** : DataTables.js pour l'affichage des réservations, Retrofit (API calls), Glide (images), Room (cache local).
 
 ### Application Mobile (client)
-- **Framework** : Flutter (Dart) ou React Native
+- **Framework** : Android Framework
+- Langage principal : Java
+- SDK : Android SDK
+- Moteur de build : Gradle
 - **Plateformes ciblées** : Android (Java/Kotlin), iOS
 
 ##  Base de Données
 
 ### Technologie
-- **SGBD** : MySQL 8.0 ???
-- **ORM** : Laravel Eloquent ????
+- **SGBD** : MySQL 8.0 
+- **ORM** : Laravel Eloquent 
 
 ### Tables Principales
 - `users` - Utilisateurs (passagers + administrateurs compagnies)
