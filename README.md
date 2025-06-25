@@ -7,7 +7,7 @@
 - Bogdan Alexandru/Pseudo:bogdan-b-alexandru
 - Bijoy Dey/Pseudo: Pas encore inscrit
 - Abdurrahmane/Zeguendri Pseudo:CodeAbdou
-- Jonathan/St-Louis Pseudo:JonathanStLouis
+- Jonathan/St-Louis/Pseudo:JonathanStLouis
 
 
 
@@ -51,7 +51,7 @@ Plateforme complète permettant aux voyageurs de rechercher, réserver et gérer
 
 ## Gestion Multi-Utilisateurs
 
-### Passagers (Application Mobile et interface web)
+### Passagers (Application Mobile)
 **Fonctionnalités :**
 - Recherche de vols (origine, destination, dates)
 - Réservation avec sélection de sièges
@@ -69,7 +69,7 @@ Plateforme complète permettant aux voyageurs de rechercher, réserver et gérer
 **Fonctionnalités :**
 - Gestion de la flotte et des vols
 - Création/modification des horaires
-- Gestion des réservations et overbooking ????
+- Gestion des réservations et overbooking 
 - Analytics et reporting (taux de remplissage, revenus)
 - Communication avec les passagers
 
