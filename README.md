@@ -5,7 +5,7 @@
 - Mouhcine Imaoun/Pseudo: Mouhcine212
 - Andrea Borges/Pseudo:Cvgirl
 - Bogdan Alexandru/Pseudo:bogdan-b-alexandru
-- Bijoy Dey/Pseudo: Pas encore inscrit
+- Bijoy Dey/Pseudo: Bijoydey12345
 - Abdurrahmane/Zeguendri Pseudo:CodeAbdou
 - Jonathan/St-Louis/Pseudo:JonathanStLouis
 
