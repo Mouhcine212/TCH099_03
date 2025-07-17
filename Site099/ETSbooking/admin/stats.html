@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Statistiques – FlightETS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <header>
+    <div class="container">
+      <h1><i class="fas fa-plane-departure"></i> FlightETS</h1>
+      <nav>
+        <a href="../index.html"><i class="fas fa-home"></i> Accueil</a>
+        <a href="../historique.html"><i class="fas fa-clock-rotate-left"></i> Historique</a>
+        <a href="stats.html"><i class="fas fa-chart-bar"></i> Statistiques</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="search-section">
+      <h2><i class="fas fa-chart-bar"></i> Statistiques des vols</h2>
+      <canvas id="volChart" width="400" height="200"></canvas>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 FlightETS. Tous droits réservés.</p>
+  </footer>
+
+  <script>
+    const ctx = document.getElementById('volChart').getContext('2d');
+    const volChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Paris', 'Toronto', 'Vancouver', 'New York', 'Tokyo'],
+        datasets: [{
+          label: 'Nombre de réservations',
+          data: [12, 19, 7, 15, 9],
+          backgroundColor: '#0074cc'
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          title: {
+            display: true,
+            text: 'Réservations par destination'
+          }
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>
