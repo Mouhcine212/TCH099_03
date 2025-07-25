@@ -1,44 +1,53 @@
 <?php
 require_once('./jwt/utils.php');
+require_once('./db/Database.php');
 
 header('Content-Type: application/json');
 
 $data = json_decode(file_get_contents('php://input'), true);
 
-//On vefie les infos de connexion :
-$username = $data['courriel'];
+// Vérifie les champs
+if (!isset($data['email']) || !isset($data['motDePasse'])) {
+    http_response_code(400);
+    echo json_encode(['error' => 'Champs manquants']);
+    exit();
+}
+
+$username = trim($data['email']);
 $mdp = $data['motDePasse'];
 
-if ($username=='' || $mdp=='') { //formulaire mal rempli
+if ($username === '' || $mdp === '') {
     http_response_code(401);
     echo json_encode(['error' => 'Identifiants invalides']);
     exit();
 }
 
-require_once('./db/Database.php');
-$cnx = $pstmt = null;
 try {
     $cnx = Database::getInstance();
-    $pstmt = $cnx->prepare("SELECT * FROM user WHERE COURRIEL=:email"); // a changer !!!!!!!!!!!!!!!!!!
-    $pstmt->bindParam(':email',$username);
+    $pstmt = $cnx->prepare("SELECT * FROM users WHERE email = :email");
+    $pstmt->bindParam(':email', $username);
     $pstmt->execute();
-    
-    $pstmt->setFetchMode(PDO::FETCH_ASSOC);
-    if ($result = $pstmt->fetch()) { //Utilisateur trouve
-        if ($mdp==$result['MOT_DE_PASSE']) { //mot de passe correct
-        //On génère le token et on l'envoie au client :
-        $token = generate_jwt(['email' => $username, 'exp' => time() + 3600]);
+
+    $user = $pstmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($user && $mdp === $user['password']) {
+        $token = generate_jwt([
+            'id' => $user['id'],
+            'email' => $user['email'],
+            'role' => $user['role'],
+            'exp' => time() + 3600 // expire en 1h
+        ]);
         echo json_encode(['token' => $token]);
-        //On arrete l'execution du script :
         exit();
-        }   
     }
-    //Infos de connexion incorrectes :
+
     http_response_code(401);
     echo json_encode(['error' => 'Identifiants invalides']);
+
 } catch (PDOException $e) {
-    http_response_code(500); //Internal Server Error
-    echo '{"error":"Error", "message":"Probleme d\'acces à la BD"}';
-} finally {
-    $cnx = null;
+    http_response_code(500);
+    echo json_encode([
+        'error' => 'Erreur serveur',
+        'message' => $e->getMessage()
+    ]);
 }

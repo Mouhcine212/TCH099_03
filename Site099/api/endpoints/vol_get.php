@@ -4,7 +4,7 @@ header("Content-Type: application/json");
 $destination = $_GET['destination'];
 $date = $_GET['date'];
 
-$conn = new mysqli("localhost", "root", "", "tch099"); // adapte le nom DB
+$conn = new mysqli("database", "root", "tiger", "docker");
 
 $sql = "SELECT * FROM vols WHERE destination = ? AND date = ?";
 $stmt = $conn->prepare($sql);

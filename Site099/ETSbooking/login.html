@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Connexion - FlightETS</title>
+  <link rel="stylesheet" href="login.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <div class="login-container">
+    <h2>FlightETS</h2>
+    <p>Connecte-toi à ton compte</p>
+
+    <form id="loginForm">
+      <label for="email">Adresse courriel</label>
+      <input type="email" id="email" name="email" placeholder="Ex: jean@example.com" required>
+
+      <label for="motDePasse">Mot de passe</label>
+      <input type="password" id="motDePasse" name="motDePasse" placeholder="••••••••••" required>
+
+      <button type="submit">Se connecter</button>
+
+      <div id="errorMsg" class="error"></div>
+      <div id="successMsg" class="success"></div>
+    </form>
+
+    <!-- 🔗 Lien vers inscription -->
+    <p>Pas encore de compte ? <a href="inscription.html">Créer un compte</a></p>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
