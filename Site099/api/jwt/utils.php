@@ -27,3 +27,8 @@ function verify_jwt($token) {
     if (isset($payload['exp']) && $payload['exp'] < time()) return false;
     return $payload;
 }
+
+function decodeJWT($token) {
+    return verify_jwt($token);
+}
+

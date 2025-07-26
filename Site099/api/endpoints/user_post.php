@@ -1,53 +1,81 @@
 <?php
-require_once(__DIR__ . '/../db/Database.php');
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: Content-Type");
+header("Access-Control-Allow-Methods: POST");
 header('Content-Type: application/json');
 
-$data = json_decode(file_get_contents('php://input'), true);
-
-if (!isset($data['email'], $data['password'], $data['firstName'], $data['lastName'])) {
-    http_response_code(400);
-    echo json_encode(['error' => 'Champs manquants']);
-    exit();
-}
-
-$email = trim($data['email']);
-$password = $data['password'];
-$firstName = trim($data['firstName']);
-$lastName = trim($data['lastName']);
-
-if ($email === '' || $password === '' || $firstName === '' || $lastName === '') {
-    http_response_code(400);
-    echo json_encode(['error' => 'Tous les champs sont requis']);
-    exit();
-}
+require_once(__DIR__ . '/../db/Database.php');
+require_once(__DIR__ . '/../jwt/utils.php');
 
 try {
-    $cnx = Database::getInstance();
+    $data = json_decode(file_get_contents('php://input'), true);
 
-    // Vérifie si l’email existe déjà
-    $check = $cnx->prepare("SELECT id FROM users WHERE email = :email");
-    $check->bindParam(':email', $email);
-    $check->execute();
-
-    if ($check->fetch()) {
-        http_response_code(409);
-        echo json_encode(['error' => 'Cet email est déjà utilisé']);
+    if (!$data) {
+        http_response_code(400);
+        echo json_encode(['error' => 'Pas de données reçues']);
         exit();
     }
 
-    $stmt = $cnx->prepare("INSERT INTO users (email, password, first_name, last_name, role, created_at, updated_at)
-                           VALUES (:email, :password, :first_name, :last_name, 'passenger', NOW(), NOW())");
+    $email = trim($data['email'] ?? '');
+    $password = trim($data['motDePasse'] ?? '');
+    $prenom = trim($data['prenom'] ?? '');
+    $nom = trim($data['nom'] ?? '');
+    $telephone = trim($data['telephone'] ?? '');
 
+    if ($email === '' || $password === '' || $prenom === '' || $nom === '') {
+        http_response_code(400);
+        echo json_encode(['error' => 'Champs requis manquants']);
+        exit();
+    }
+
+    $cnx = Database::getInstance();
+
+    // Vérifier si l'utilisateur existe déjà
+    $stmt = $cnx->prepare("SELECT ID_UTILISATEUR FROM UTILISATEURS WHERE COURRIEL = :email");
     $stmt->bindParam(':email', $email);
-    $stmt->bindParam(':password', $password); 
-    $stmt->bindParam(':first_name', $firstName);
-    $stmt->bindParam(':last_name', $lastName);
-
     $stmt->execute();
 
-    echo json_encode(['success' => true]);
-} catch (PDOException $e) {
+    if ($stmt->fetch()) {
+        http_response_code(409);
+        echo json_encode(['error' => 'Email déjà utilisé']);
+        exit();
+    }
+
+    // Enregistrer le mot de passe (non chiffré ici, à modifier si besoin)
+    $plainPassword = $password;
+    $fullName = $prenom . ' ' . $nom;
+
+    // Insertion
+    $stmt = $cnx->prepare("INSERT INTO UTILISATEURS (NOM, COURRIEL, MOT_DE_PASSE_HASH, TELEPHONE) 
+                           VALUES (:nom, :email, :password, :telephone)");
+    $stmt->bindParam(':nom', $fullName);
+    $stmt->bindParam(':email', $email);
+    $stmt->bindParam(':password', $plainPassword);
+    $stmt->bindParam(':telephone', $telephone);
+    $stmt->execute();
+
+    $userId = $cnx->lastInsertId();
+
+    // Générer un token JWT
+    $token = generate_jwt([
+        'id' => $userId,
+        'email' => $email,
+        'nom' => $fullName,
+        'exp' => time() + 3600
+    ]);
+
+    echo json_encode(['success' => true, 'token' => $token]);
+    exit();
+
+} catch (Throwable $e) {
     http_response_code(500);
-    echo json_encode(['error' => 'Erreur serveur', 'details' => $e->getMessage()]);
+    echo json_encode([
+        'error' => 'Erreur serveur',
+        'details' => $e->getMessage()
+    ]);
+    exit();
 }

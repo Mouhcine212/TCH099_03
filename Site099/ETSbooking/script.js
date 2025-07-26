@@ -1,141 +1,49 @@
-// === GESTION DU BOUTON CONNEXION / DÉCONNEXION ===
-const token = localStorage.getItem('jwt');
-const authBtnContainer = document.getElementById('authBtn');
 
-if (authBtnContainer) {
-  if (token) {
-    authBtnContainer.innerHTML = `<a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>`;
-    const logoutBtn = document.getElementById('logoutBtn');
-    logoutBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      localStorage.removeItem('jwt');
-      localStorage.setItem('flash', 'Déconnexion réussie ✅');
-      window.location.href = '/etsbooking/login.html';
-    });
-  } else {
-    authBtnContainer.innerHTML = `<a href="/etsbooking/login.html"><i class="fas fa-user"></i> Connexion</a>`;
-  }
-}
 
-// === AFFICHAGE DU MESSAGE DE DÉCONNEXION SUR login.html ===
-const flash = localStorage.getItem('flash');
-if (flash) {
-  const successMsg = document.getElementById('successMsg');
-  if (successMsg) {
-    successMsg.textContent = flash;
-  }
-  localStorage.removeItem('flash');
-}
-
-// === LOGIN.JS ===
-const loginForm = document.getElementById('loginForm');
-if (loginForm) {
-  const errorMsg = document.getElementById('errorMsg');
-  const successMsg = document.getElementById('successMsg');
-
-  loginForm.addEventListener('submit', async function (e) {
-    e.preventDefault();
-
-    errorMsg.textContent = '';
-    successMsg.textContent = '';
-
-    const email = loginForm.email.value;
-    const motDePasse = loginForm.motDePasse.value;
-
-    try {
-      const response = await fetch('http://localhost/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, motDePasse })
-      });
-
-      const data = await response.json();
-      console.log("Réponse serveur:", data);
-
-      if (response.ok && data.token) {
-        localStorage.setItem('jwt', data.token);
-        successMsg.textContent = "Connexion réussie ! Redirection...";
-        setTimeout(() => {
-          window.location.href = '/etsbooking/index.html';
-        }, 1000);
-      } else {
-        errorMsg.textContent = data.error || "Identifiants invalides.";
-      }
-    } catch (err) {
-      errorMsg.textContent = "Erreur réseau ou serveur.";
-      console.error("Erreur:", err);
-    }
-  });
-}
-
-// === INDEX.JS ===
-const searchForm = document.getElementById('search-form');
+// === RECHERCHE DE VOLS ===
+const searchForm = document.getElementById('searchForm');
 if (searchForm) {
-  if (!token) {
-    window.location.href = '/etsbooking/login.html';
-  }
-
-  searchForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-    const destination = e.target.destination.value;
-    const date = e.target.date.value;
-
-    fetch(`/etsbooking/backend/vols.php?destination=${destination}&date=${date}`, {
-      headers: {
-        'Authorization': 'Bearer ' + token
-      }
-    })
-      .then(res => res.json())
-      .then(data => {
-        const results = document.getElementById('results');
-        results.innerHTML = '';
-        data.forEach(vol => {
-          results.innerHTML += `
-            <div>
-              <strong>Vol ${vol.numero_vol}</strong> - ${vol.destination}, ${vol.date} à ${vol.heure}<br>
-              Prix: ${vol.prix}$ - Dispo: ${vol.disponibilite}
-            </div><hr>
-          `;
-        });
-      });
-  });
-}
-// === GESTION DE L’INSCRIPTION ===
-const registerForm = document.getElementById('registerForm');
-if (registerForm) {
-  const registerMsg = document.getElementById('registerMsg');
-
-  registerForm.addEventListener('submit', async function (e) {
+  searchForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    registerMsg.textContent = '';
+    const destination = document.getElementById('destination').value.trim();
+    const date = document.getElementById('date').value;
 
-    const email = registerForm.email.value;
-    const password = registerForm.password.value;
-    const firstName = registerForm.firstName.value;
-    const lastName = registerForm.lastName.value;
+    const resultDiv = document.getElementById('results');
+    resultDiv.innerHTML = '';
 
     try {
-      const response = await fetch('http://localhost/api/user', {
+      const res = await fetch('http://localhost/api/search_flights', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password, firstName, lastName })
+        body: JSON.stringify({ destination, date })
       });
 
-      const data = await response.json();
-      console.log(data);
+      const data = await res.json();
 
-      if (response.ok && data.success) {
-        registerMsg.textContent = "Compte créé avec succès ! Redirection...";
-        setTimeout(() => {
-          window.location.href = "login.html";
-        }, 1500);
+      if (res.ok && Array.isArray(data) && data.length > 0) {
+        data.forEach(vol => {
+          const card = document.createElement('div');
+          card.classList.add('flight-card');
+          card.innerHTML = `
+            <h3>${vol.NUMERO_VOL} – ${vol.DESTINATION}</h3>
+            <p>Compagnie : ${vol.COMPAGNIE}</p>
+            <p>Classe : ${vol.CLASSE}</p>
+            <p>Heure de départ : ${vol.HEURE_DEPART}</p>
+            <p>Heure d'arrivée : ${vol.HEURE_ARRIVEE}</p>
+            <p>Prix : ${vol.PRIX} $</p>
+            <p>Sièges disponibles : ${vol.SIEGES_DISPONIBLES}</p>
+            <button onclick="window.location.href='reservation.html?id=${vol.ID_VOL}'">
+              Réserver
+            </button>
+          `;
+          resultDiv.appendChild(card);
+        });
       } else {
-        registerMsg.textContent = data.error || "Erreur lors de l'inscription.";
+        resultDiv.innerHTML = '<p>Aucun vol trouvé.</p>';
       }
     } catch (err) {
-      registerMsg.textContent = "Erreur réseau ou serveur.";
-      console.error("Erreur:", err);
+      resultDiv.innerHTML = '<p>Erreur serveur. Réessayez plus tard.</p>';
     }
   });
 }

@@ -2,10 +2,11 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>FlightETS – Réservation de vols</title>
+  <title>Accueil – FlightETS</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  
 </head>
 <body>
 
@@ -15,32 +16,32 @@
       <nav>
         <a href="index.html"><i class="fas fa-home"></i> Accueil</a>
         <a href="historique.html"><i class="fas fa-clock-rotate-left"></i> Historique</a>
-        <a href="admin/stats.html"><i class="fas fa-chart-bar"></i> Statistiques</a>
-        <span id="authBtn"></span>
+        <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
       </nav>
     </div>
   </header>
 
   <main>
     <section class="search-section">
-      <h2><i class="fas fa-search-location"></i> Rechercher un vol</h2>
-      <form id="search-form">
-        <input type="text" name="destination" placeholder="Destination (ex: Paris)" required>
-        <input type="date" name="date" required>
-        <button type="submit"><i class="fas fa-search"></i> Rechercher</button>
+      <h2>Rechercher un vol</h2>
+      <form id="searchForm">
+        <label for="destination">Destination :</label>
+        <input type="text" id="destination" name="destination" required placeholder="Ex: Paris">
+
+        <label for="date">Date :</label>
+        <input type="date" id="date" name="date" required>
+
+        <button type="submit">Rechercher</button>
       </form>
     </section>
 
-    <section id="results-section">
-      <h2><i class="fas fa-plane-arrival"></i> Résultats</h2>
-      <div id="results"></div>
-    </section>
+    <section id="results"></section>
   </main>
 
   <footer>
     <p>&copy; 2025 FlightETS. Tous droits réservés.</p>
   </footer>
 
-  <script src="script.js"></script>
+  <script src="index.js"></script>
 </body>
 </html>

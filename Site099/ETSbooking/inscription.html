@@ -1,35 +1,25 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Inscription - FlightETS</title>
-  <link rel="stylesheet" href="login.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Inscription – FlightETS</title>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-  <div class="login-container">
+  <div class="form-container">
     <h2>Créer un compte</h2>
     <p>Remplis ce formulaire pour t'inscrire :</p>
-
     <form id="registerForm">
-      <label for="email">Adresse courriel</label>
-      <input type="email" id="email" name="email" required>
-
-      <label for="password">Mot de passe</label>
-      <input type="password" id="password" name="password" required>
-
-      <label for="firstName">Prénom</label>
-      <input type="text" id="firstName" name="firstName" required>
-
-      <label for="lastName">Nom</label>
-      <input type="text" id="lastName" name="lastName" required>
-
+      <input type="email" id="email" placeholder="Adresse courriel" required />
+      <input type="password" id="password" placeholder="Mot de passe" required />
+      <input type="text" id="firstName" placeholder="Prénom" required />
+      <input type="text" id="lastName" placeholder="Nom" required />
+      <input type="text" id="telephone" placeholder="Téléphone (facultatif)" />
       <button type="submit">Créer un compte</button>
-      <div id="registerMsg" class="success"></div>
     </form>
-
     <p>Tu as déjà un compte ? <a href="login.html">Connexion</a></p>
   </div>
-
-  <script src="script.js"></script>
+  <script src="inscription.js"></script>
 </body>
 </html>

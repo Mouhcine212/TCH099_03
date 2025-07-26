@@ -1,0 +1,30 @@
+
+document.getElementById('loginForm').addEventListener('submit', async function (e) {
+  e.preventDefault();
+
+  const email = document.getElementById('email').value.trim();
+  const motDePasse = document.getElementById('motDePasse').value;
+
+  try {
+    const response = await fetch('http://localhost/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, motDePasse })
+    });
+
+    const data = await response.json();
+
+    if (response.ok && data.token) {
+      localStorage.setItem('token', data.token);
+      // Redirige vers l'accueil
+      window.location.href = 'index.html';
+    } else {
+      document.getElementById('errorMsg').textContent = data.error || 'Erreur inconnue';
+    }
+  } catch (error) {
+    console.error('Erreur réseau :', error);
+    document.getElementById('errorMsg').textContent = 'Erreur serveur';
+  }
+});

@@ -5,29 +5,26 @@
   <title>Historique – FlightETS</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
 
-  <!-- En-tête -->
   <header>
     <div class="container">
       <h1><i class="fas fa-plane-departure"></i> FlightETS</h1>
       <nav>
         <a href="index.html"><i class="fas fa-home"></i> Accueil</a>
         <a href="historique.html"><i class="fas fa-clock-rotate-left"></i> Historique</a>
-        <a href="admin/stats.html"><i class="fas fa-chart-bar"></i> Statistiques</a>
+        <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
       </nav>
     </div>
   </header>
 
-  <!-- Contenu principal -->
   <main>
     <section class="search-section">
-      <h2><i class="fas fa-clock-rotate-left"></i> Vos vols passés</h2>
-      <div id="historique">
-        <!-- JS va insérer ici la liste des vols -->
-      </div>
+      <h2><i class="fas fa-clock-rotate-left"></i> Vos vols réservés</h2>
+      <!-- Résultats JS ici -->
+      <div id="historyResults"></div>
     </section>
   </main>
 
@@ -35,19 +32,6 @@
     <p>&copy; 2025 FlightETS. Tous droits réservés.</p>
   </footer>
 
-  <script>
-// changer avec l<API
-    const container = document.getElementById('historique');
-    historique.forEach(v => {
-      container.innerHTML += `
-        <div>
-          <strong>Vol ${v.numero}</strong> – ${v.destination}<br>
-          Date : ${v.date} à ${v.heure}<br>
-          Statut : <span style="color:${v.statut === 'Annulé' ? 'red' : 'green'}">${v.statut}</span>
-        </div><hr>
-      `;
-    });
-  </script>
-
+  <script src="historique.js"></script>
 </body>
 </html>
