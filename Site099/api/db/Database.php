@@ -15,7 +15,6 @@ class Database
                 Config::DB_USER,
                 Config::DB_PWD
             );
-            // 🔐 Active les erreurs PDO en mode Exception
             self::$instance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         }
 

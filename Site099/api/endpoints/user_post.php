@@ -34,7 +34,7 @@ try {
 
     $cnx = Database::getInstance();
 
-    // Vérifier si l'utilisateur existe déjà
+    // Vérifie si l'utilisateur existe 
     $stmt = $cnx->prepare("SELECT ID_UTILISATEUR FROM UTILISATEURS WHERE COURRIEL = :email");
     $stmt->bindParam(':email', $email);
     $stmt->execute();
@@ -45,11 +45,9 @@ try {
         exit();
     }
 
-    // Enregistrer le mot de passe (non chiffré ici, à modifier si besoin)
-    $plainPassword = $password;
+    $plainPassword = $password; // à remplacer par password_hash apres !!!
     $fullName = $prenom . ' ' . $nom;
 
-    // Insertion
     $stmt = $cnx->prepare("INSERT INTO UTILISATEURS (NOM, COURRIEL, MOT_DE_PASSE_HASH, TELEPHONE) 
                            VALUES (:nom, :email, :password, :telephone)");
     $stmt->bindParam(':nom', $fullName);
@@ -60,7 +58,7 @@ try {
 
     $userId = $cnx->lastInsertId();
 
-    // Générer un token JWT
+    // Génère un token
     $token = generate_jwt([
         'id' => $userId,
         'email' => $email,

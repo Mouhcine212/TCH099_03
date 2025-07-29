@@ -2,19 +2,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const logoutBtn = document.getElementById('logoutBtn');
   const token = localStorage.getItem('token');
 
-  //  Redirige vers login si non connecté
   if (!token) {
     window.location.replace('login.html');
     return;
   }
 
-  //  Bloque le bouton retour après déconnexion
   window.history.pushState(null, '', window.location.href);
   window.addEventListener('popstate', () => {
     window.history.pushState(null, '', window.location.href);
   });
 
-  //  Gère la déconnexion
   if (logoutBtn) {
     logoutBtn.addEventListener('click', (e) => {
       e.preventDefault();
@@ -23,7 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  //  Recherche de vols
   const form = document.getElementById('searchForm');
   const resultsContainer = document.getElementById('results');
 
@@ -59,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
               <p><strong>Classe :</strong> ${vol.CLASSE}</p>
               <p><strong>Prix :</strong> ${vol.PRIX} $</p>
               <p><strong>Sièges disponibles :</strong> ${vol.SIEGES_DISPONIBLES}</p>
-              <button onclick="window.location.href='reservation.html?id=${vol.ID_VOL}'">Réserver</button>
+              <button onclick="window.location.href='confirmation.html?id=${vol.ID_VOL}'">Réserver</button>
             </div>
           `).join('');
         } else {

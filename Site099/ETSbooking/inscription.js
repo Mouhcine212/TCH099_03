@@ -9,6 +9,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const prenom = document.getElementById('firstName').value.trim();
     const nom = document.getElementById('lastName').value.trim();
     const telephone = document.getElementById('telephone').value.trim();
+    const dateNaissance = document.getElementById('dateNaissance').value.trim();
+    const passeport = document.getElementById('passeport').value.trim();
+
+    // puisque dans la base sql user na pas de dateNaissance ni passeport, on les stocke dans localStorage.
+    localStorage.setItem('dateNaissance', dateNaissance);
+    localStorage.setItem('passeport', passeport);
 
     const userData = {
       email,

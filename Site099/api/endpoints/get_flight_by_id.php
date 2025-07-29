@@ -1,6 +1,7 @@
 <?php
-require_once __DIR__ . '/../db/Database.php';
-require_once __DIR__ . '/../jwt/utils.php';
+require_once(__DIR__ . '/../db/Database.php');
+require_once(__DIR__ . '/../jwt/utils.php');
+
 
 header('Content-Type: application/json');
 
@@ -8,7 +9,6 @@ $requestUri = $_SERVER['REQUEST_URI'];
 $segments = explode('/', $requestUri);
 $id = end($segments);
 
-// Vérifie si l'id est numérique
 if (!is_numeric($id)) {
     http_response_code(400);
     echo json_encode(['error' => 'ID manquant ou invalide']);

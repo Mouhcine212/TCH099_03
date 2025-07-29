@@ -35,14 +35,12 @@ try {
         exit();
     }
 
-    // Vérifie le mot de passe EN CLAIR
     if ($password !== $user['MOT_DE_PASSE_HASH']) {
         http_response_code(401);
         echo json_encode(['error' => 'Mot de passe incorrect']);
         exit();
     }
 
-    // Génère le token
     $token = generate_jwt([
         'id' => $user['ID_UTILISATEUR'],
         'email' => $user['COURRIEL'],

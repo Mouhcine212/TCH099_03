@@ -18,7 +18,6 @@ document.getElementById('loginForm').addEventListener('submit', async function (
 
     if (response.ok && data.token) {
       localStorage.setItem('token', data.token);
-      // Redirige vers l'accueil
       window.location.href = 'index.html';
     } else {
       document.getElementById('errorMsg').textContent = data.error || 'Erreur inconnue';

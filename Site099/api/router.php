@@ -19,7 +19,7 @@ function put($route, $path_to_include)
 	}
 }
 function patch($route, $path_to_include)
-{
+{	
 	if ($_SERVER['REQUEST_METHOD'] == 'PATCH') {
 		route($route, $path_to_include);
 	}

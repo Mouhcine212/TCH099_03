@@ -1,21 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
   const logoutBtn = document.getElementById('logoutBtn');
-  const container = document.getElementById('historique'); // ID correct de ta div HTML
+  const container = document.getElementById('historyResults');
   const token = localStorage.getItem('token');
 
-  //  Redirige vers login si pas connecté
   if (!token) {
     window.location.replace('login.html');
     return;
   }
 
-  //  Bloque le bouton retour après déconnexion
   window.history.pushState(null, '', window.location.href);
   window.addEventListener('popstate', () => {
     window.history.pushState(null, '', window.location.href);
   });
 
-  //  Gère le bouton déconnexion
   if (logoutBtn) {
     logoutBtn.addEventListener('click', (e) => {
       e.preventDefault();
@@ -24,9 +21,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  //  Récupère et affiche l’historique des vols
   if (container) {
-    fetch('http://localhost/api/get_flight_history', {
+    fetch('http://localhost/api/historique', {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -34,11 +30,25 @@ document.addEventListener('DOMContentLoaded', () => {
     .then(res => res.json())
     .then(data => {
       if (Array.isArray(data) && data.length > 0) {
-        container.innerHTML = data.map(flight => `
-          <div class="history-item">
-            <p><strong>${flight.DESTINATION}</strong> – ${flight.DATE}</p>
-          </div>
-        `).join('');
+        container.innerHTML = data.map(resa => {
+          const dateNaissance = resa.DATE_NAISSANCE ? `<p><strong>Date de naissance :</strong> ${resa.DATE_NAISSANCE}</p>` : '';
+          const passeport = resa.NUMERO_PASSEPORT ? `<p><strong>Numéro de passeport :</strong> ${resa.NUMERO_PASSEPORT}</p>` : '';
+
+          return `
+            <div class="history-item">
+              <p><strong>Vol :</strong> ${resa.ORIGINE} → ${resa.DESTINATION}</p>
+              <p><strong>Départ :</strong> ${new Date(resa.HEURE_DEPART).toLocaleString()}</p>
+              <p><strong>Arrivée :</strong> ${new Date(resa.HEURE_ARRIVEE).toLocaleString()}</p>
+              <p><strong>Siège :</strong> ${resa.NUMERO_SIEGE}</p>
+              <p><strong>Compagnie :</strong> ${resa.COMPAGNIE}</p>
+              <p><strong>Prix :</strong> ${resa.PRIX} $</p>
+              ${dateNaissance}
+              ${passeport}
+              <p><strong>Statut :</strong> ${resa.STATUT ?? "Confirmé"}</p>
+              <hr/>
+            </div>
+          `;
+        }).join('');
       } else {
         container.innerHTML = `<p class="info">Aucun vol réservé trouvé.</p>`;
       }
