@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     try {
-      const res = await fetch('http://localhost/api/update_user', {
+      const res = await fetch('https://flightets-gghremf5czh9d3ea.canadacentral-01.azurewebsites.net/api/update_user', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -145,7 +145,7 @@ passwordForm.addEventListener('submit', async (e) => {
   }
 
   try {
-    const res = await fetch('http://localhost/api/change_password', {
+    const res = await fetch('https://flightets-gghremf5czh9d3ea.canadacentral-01.azurewebsites.net/api/change_password', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

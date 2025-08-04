@@ -6,7 +6,7 @@ document.getElementById('loginForm').addEventListener('submit', async function (
   const motDePasse = document.getElementById('motDePasse').value;
 
   try {
-    const response = await fetch('http://localhost/api/login', {
+    const response = await fetch('https://flightets-gghremf5czh9d3ea.canadacentral-01.azurewebsites.net/api/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
