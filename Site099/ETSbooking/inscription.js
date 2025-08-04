@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     try {
-      const res = await fetch('http://localhost/api/user', {
+      const res = await fetch( '../api/endpoints/user_post.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

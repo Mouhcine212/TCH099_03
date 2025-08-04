@@ -10,7 +10,7 @@ if (searchForm) {
     resultDiv.innerHTML = '';
 
     try {
-      const res = await fetch('http://localhost/api/search_flights', {
+      const res = await fetch('https://flightets-gghremf5czh9d3ea.canadacentral-01.azurewebsites.net/api/search_flights', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ destination, date })

@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function loadHistorique() {
-    fetch('http://localhost/api/historique', {
+    fetch('https://flightets-gghremf5czh9d3ea.canadacentral-01.azurewebsites.net/api/historique', {
       headers: { 'Authorization': `Bearer ${token}` }
     })
       .then(res => res.json())
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function annulerReservation(idReservation, cardElement) {
     if (!confirm("Voulez-vous vraiment annuler cette réservation ?")) return;
 
-    fetch('http://localhost/api/annuler_reservation', {
+    fetch('https://flightets-gghremf5czh9d3ea.canadacentral-01.azurewebsites.net/api/annuler_reservation', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
