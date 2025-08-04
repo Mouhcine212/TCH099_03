@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const token = localStorage.getItem('token');
   const profileForm = document.getElementById('profileForm');
-  const logoutBtn = document.getElementById('logoutBtn');
+  const backBtn = document.getElementById('backBtn');
   const message = document.getElementById('message');
   const nameInput = document.getElementById('fullName');
   const emailInput = document.getElementById('email');
@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  // Fonction pour décoder le JWT
+  // 🔹 Décoder le JWT
   function parseJwt(token) {
     try {
       return JSON.parse(atob(token.split('.')[1]));
@@ -21,25 +21,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  const user = parseJwt(token);
+  let user = parseJwt(token);
   if (!user) {
     window.location.href = 'login.html';
     return;
   }
 
-  // Pré-remplissage du formulaire
+  // 🔹 Pré-remplissage
   nameInput.value = user.nom || '';
   emailInput.value = user.email || '';
   phoneInput.value = user.telephone || '';
 
-  // Déconnexion
-  logoutBtn.addEventListener('click', () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user_id');
-    window.location.href = 'login.html';
+  // 🔹 Bouton retour
+  backBtn.addEventListener('click', () => {
+    window.location.href = 'index.html';
   });
 
-  // Validation téléphone
+  // 🔹 Validation téléphone
   function isPhoneValid(phone) {
     return /^\d{10}$/.test(phone);
   }
@@ -52,19 +50,19 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
 
     if (!editMode) {
-      // Passe en mode édition
+      // Active les champs pour édition
       nameInput.disabled = false;
       emailInput.disabled = false;
       phoneInput.disabled = false;
       editBtn.textContent = "Confirmer";
       editMode = true;
     } else {
-      // Soumission réelle du formulaire
+      // Soumission réelle
       profileForm.requestSubmit();
     }
   });
 
-  // Soumission du formulaire
+  // === Soumission du formulaire pour mise à jour ===
   profileForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     message.textContent = "";
@@ -91,41 +89,26 @@ document.addEventListener('DOMContentLoaded', () => {
         body: JSON.stringify(updatedData)
       });
 
-      const textResponse = await res.text();
-      let data;
-
-      try {
-        data = JSON.parse(textResponse);
-      } catch (parseErr) {
-        console.error("Réponse non JSON:", textResponse);
-        message.style.color = "#ff4d4d";
-        message.textContent = "Erreur serveur (non JSON).";
-        return;
-      }
+      const data = await res.json();
 
       if (res.ok && data.success) {
+        // 🔹 Stocker le nouveau token
+        if (data.token) {
+          localStorage.setItem('token', data.token);
+          user = parseJwt(data.token); // met à jour l'objet utilisateur
+        }
+
         message.style.color = "#14ca50";
         message.textContent = "Profil mis à jour avec succès ! Redirection...";
 
-        // Nouveau token local pour maj navbar immédiatement
-        const newTokenPayload = {
-          id: user.id,
-          email: updatedData.email,
-          nom: updatedData.nom,
-          telephone: updatedData.telephone,
-          exp: Math.floor(Date.now() / 1000) + 3600
-        };
-        const newToken = generateFakeJWT(newTokenPayload);
-        localStorage.setItem('token', newToken);
-
-        // Désactive les champs à nouveau
+        // Désactive les champs
         nameInput.disabled = true;
         emailInput.disabled = true;
         phoneInput.disabled = true;
         editBtn.textContent = "Modifier";
         editMode = false;
 
-        // Redirection vers l'accueil
+        // Redirection après 1.5s
         setTimeout(() => {
           window.location.href = 'index.html';
         }, 1500);
@@ -141,13 +124,6 @@ document.addEventListener('DOMContentLoaded', () => {
       message.textContent = "Erreur serveur.";
     }
   });
-
-  // Génération rapide de faux JWT côté client
-  function generateFakeJWT(payload) {
-    const header = btoa(JSON.stringify({ alg: "HS256", typ: "JWT" }));
-    const body = btoa(JSON.stringify(payload));
-    return `${header}.${body}.fake_signature`;
-  }
 });
 
 // === FORMULAIRE CHANGEMENT DE MOT DE PASSE ===
@@ -187,10 +163,7 @@ passwordForm.addEventListener('submit', async (e) => {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       },
-      body: JSON.stringify({
-        currentPassword,
-        newPassword
-      })
+      body: JSON.stringify({ currentPassword, newPassword })
     });
 
     const data = await res.json();
@@ -200,7 +173,7 @@ passwordForm.addEventListener('submit', async (e) => {
       passwordMessage.textContent = "Mot de passe modifié avec succès ✅";
       passwordForm.reset();
 
-      // Déconnecter après changement de mot de passe
+      // Déconnexion après changement
       setTimeout(() => {
         localStorage.removeItem('token');
         window.location.href = 'login.html';
@@ -217,4 +190,3 @@ passwordForm.addEventListener('submit', async (e) => {
     passwordMessage.textContent = "Erreur serveur.";
   }
 });
-

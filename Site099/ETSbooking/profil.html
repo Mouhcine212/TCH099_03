@@ -38,6 +38,7 @@
       <div id="message"></div>
     </form>
 
+    <!-- Séparateur -->
     <hr style="margin: 30px 0;">
 
     <!-- Formulaire changement de mot de passe -->
@@ -57,16 +58,20 @@
     </form>
   </div>
 
-  <!-- Scripts -->
+  <!-- ✅ Script principal -->
   <script src="profil.js"></script>
 
   <!-- ✅ Script pour gérer le bouton Retour -->
   <script>
-    document.getElementById('backBtn').addEventListener('click', () => {
-      window.location.href = 'index.html';
+    document.addEventListener("DOMContentLoaded", () => {
+      const backBtn = document.getElementById('backBtn');
+      if (backBtn) {
+        backBtn.addEventListener('click', () => {
+          window.location.href = 'index.html';
+        });
+      }
     });
   </script>
+
 </body>
 </html>
-
-

@@ -4,6 +4,7 @@ require_once __DIR__ . '/../jwt/utils.php';
 
 header('Content-Type: application/json');
 
+// Vérification du token dans l'en-tête Authorization
 $headers = getallheaders();
 if (!isset($headers['Authorization'])) {
     http_response_code(401);
@@ -20,6 +21,7 @@ if (!$userData) {
     exit();
 }
 
+// Lecture des données envoyées
 $data = json_decode(file_get_contents('php://input'), true);
 
 $nom = trim($data['nom'] ?? '');
@@ -49,8 +51,23 @@ try {
         ':id' => $userData['id']
     ]);
 
-    echo json_encode(['success' => true, 'message' => 'Profil mis à jour avec succès']);
+    // ✅ Générer un nouveau token JWT avec les infos mises à jour
+    $newToken = generate_jwt([
+        'id' => $userData['id'],
+        'nom' => $nom,
+        'email' => $email,
+        'telephone' => $telephone,
+        'exp' => time() + 3600 // expiration 1h
+    ]);
+
+    echo json_encode([
+        'success' => true,
+        'message' => 'Profil mis à jour avec succès',
+        'token' => $newToken
+    ]);
+
 } catch (PDOException $e) {
     http_response_code(500);
     echo json_encode(['error' => 'Erreur SQL: ' . $e->getMessage()]);
 }
+
