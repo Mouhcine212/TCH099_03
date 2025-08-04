@@ -20,9 +20,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const motDePasse = document.getElementById('password').value.trim();
     const prenom = document.getElementById('firstName').value.trim();
     const nom = document.getElementById('lastName').value.trim();
-    const telephone = document.getElementById('telephone').value.trim();
+    let telephone = document.getElementById('telephone').value.trim();
     const dateNaissance = document.getElementById('dateNaissance').value.trim();
     const passeport = document.getElementById('passeport').value.trim();
+
+    // 🔹 Nettoyer le téléphone : garder uniquement les chiffres
+    telephone = telephone.replace(/\D/g, '');
 
     // Stocker les infos supplémentaires en localStorage
     localStorage.setItem('dateNaissance', dateNaissance);
@@ -35,8 +38,8 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    if (telephone && !/^\d{3}-\d{3}-\d{4}$/.test(telephone)) {
-      errorMsg.textContent = "Format du téléphone invalide (ex: 514-123-4567).";
+    if (telephone && !/^\d{10}$/.test(telephone)) {
+      errorMsg.textContent = "Format du téléphone invalide. Entrez 10 chiffres (ex: 5141234567).";
       document.getElementById('telephone').style.border = '2px solid #ff4d4d';
       return;
     }
