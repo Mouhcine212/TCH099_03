@@ -20,3 +20,12 @@ post($URL . '/annuler_reservation', 'endpoints/annuler_reservation.php');
 post($URL . '/update_user', 'endpoints/update_user.php');
 
 post($URL . '/change_password', 'endpoints/change_password.php');
+
+// Récupérer les sièges dispo pour un vol
+get($URL . '/get_seats/$id_vol', 'endpoints/get_seats.php');
+
+// Créer une réservation complète (RESERVATIONS + PASSAGERS)
+post($URL . '/create_reservation', 'endpoints/create_reservation.php');
+
+// Effectuer le paiement lié à une réservation
+post($URL . '/process_payment', 'endpoints/process_payment.php');
