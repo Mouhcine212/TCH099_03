@@ -1,8 +1,12 @@
 <?php
-require_once('./jwt/utils.php');
-require_once('./db/Database.php');
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 header('Content-Type: application/json');
+
+require_once(__DIR__ . '/../jwt/utils.php');
+require_once(__DIR__ . '/../db/Database.php');
 
 $data = json_decode(file_get_contents('php://input'), true);
 
@@ -16,13 +20,14 @@ $email = trim($data['email']);
 $password = trim($data['motDePasse']);
 
 if ($email === '' || $password === '') {
-    http_response_code(401);
+    http_response_code(400);
     echo json_encode(['error' => 'Champs vides']);
     exit();
 }
 
 try {
     $cnx = Database::getInstance();
+
     $pstmt = $cnx->prepare("SELECT * FROM UTILISATEURS WHERE COURRIEL = :email");
     $pstmt->bindParam(':email', $email);
     $pstmt->execute();
@@ -35,14 +40,12 @@ try {
         exit();
     }
 
-    // Vérification du mot de passe (en clair pour ton projet actuel)
-    if ($password !== $user['MOT_DE_PASSE_HASH']) {
+    if (!password_verify($password, $user['MOT_DE_PASSE_HASH'])) {
         http_response_code(401);
         echo json_encode(['error' => 'Mot de passe incorrect']);
         exit();
     }
 
-    // 🔹 Créer un JWT complet avec toutes les infos utiles
     $token = generate_jwt([
         'id' => $user['ID_UTILISATEUR'],
         'nom' => $user['NOM'],
@@ -68,4 +71,6 @@ try {
         'error' => 'Erreur serveur',
         'message' => $e->getMessage()
     ]);
+    exit();
 }
+

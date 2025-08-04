@@ -1,56 +1,78 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
+header('Access-Control-Allow-Methods: POST');
 
-require_once __DIR__ . '/../db/Database.php';
-require_once __DIR__ . '/../jwt/utils.php';
-
-$input = json_decode(file_get_contents('php://input'), true);
-if (!$input || !isset($input['currentPassword']) || !isset($input['newPassword'])) {
-    echo json_encode(['error' => 'Champs manquants']);
-    exit;
-}
-
-// Vérification du token
-$headers = getallheaders();
-if (!isset($headers['Authorization']) || !preg_match('/Bearer\s(\S+)/', $headers['Authorization'], $matches)) {
-    echo json_encode(['error' => 'Token manquant ou invalide']);
-    exit;
-}
-
-$token = $matches[1];
-$userData = verify_jwt($token);
-
-if (!$userData || !isset($userData['id'])) {
-    echo json_encode(['error' => 'Token invalide ou expiré']);
-    exit;
-}
-
-$userId = intval($userData['id']);
-$currentPassword = trim($input['currentPassword']);
-$newPassword = trim($input['newPassword']);
+require_once(__DIR__ . '/../db/Database.php');
+require_once(__DIR__ . '/../jwt/utils.php');
 
 try {
-    $cnx = Database::getInstance();
+    $headers = getallheaders();
+    $authHeader = $headers['Authorization'] ?? '';
 
-    // Vérifier mot de passe actuel
-    $stmt = $cnx->prepare("SELECT MOT_DE_PASSE_HASH FROM UTILISATEURS WHERE ID_UTILISATEUR = ?");
-    $stmt->execute([$userId]);
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if (!$user || $currentPassword !== $user['MOT_DE_PASSE_HASH']) {
-        echo json_encode(['error' => 'Mot de passe actuel incorrect']);
-        exit;
+    if (!$authHeader || !str_starts_with($authHeader, 'Bearer ')) {
+        http_response_code(401);
+        echo json_encode(['error' => 'Token manquant']);
+        exit();
     }
 
-    // Mettre à jour
-    $stmt = $cnx->prepare("UPDATE UTILISATEURS SET MOT_DE_PASSE_HASH = ? WHERE ID_UTILISATEUR = ?");
-    $stmt->execute([$newPassword, $userId]); // En clair, comme ton projet actuel
+    $token = substr($authHeader, 7);
+    $userData = verify_jwt($token);
 
-    echo json_encode(['success' => true, 'message' => 'Mot de passe changé avec succès']);
+    if (!$userData || !isset($userData['id'])) {
+        http_response_code(401);
+        echo json_encode(['error' => 'Token invalide']);
+        exit();
+    }
 
-} catch (PDOException $e) {
-    echo json_encode(['error' => 'Erreur SQL: ' . $e->getMessage()]);
+    $userId = $userData['id'];
+    $data = json_decode(file_get_contents('php://input'), true);
+
+    $currentPassword = trim($data['currentPassword'] ?? '');
+    $newPassword = trim($data['newPassword'] ?? '');
+
+    if ($currentPassword === '' || $newPassword === '') {
+        http_response_code(400);
+        echo json_encode(['error' => 'Champs manquants']);
+        exit();
+    }
+
+    if (strlen($newPassword) < 6) {
+        http_response_code(400);
+        echo json_encode(['error' => 'Le mot de passe doit contenir au moins 6 caractères']);
+        exit();
+    }
+
+    $cnx = Database::getInstance();
+    $stmt = $cnx->prepare("SELECT MOT_DE_PASSE_HASH FROM UTILISATEURS WHERE ID_UTILISATEUR = :id");
+    $stmt->execute([':id' => $userId]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$user || !password_verify($currentPassword, $user['MOT_DE_PASSE_HASH'])) {
+        http_response_code(400);
+        echo json_encode(['error' => 'Mot de passe actuel incorrect']);
+        exit();
+    }
+
+    $hashedPassword = password_hash($newPassword, PASSWORD_BCRYPT);
+
+    $update = $cnx->prepare("UPDATE UTILISATEURS SET MOT_DE_PASSE_HASH = :pwd WHERE ID_UTILISATEUR = :id");
+    $update->execute([
+        ':pwd' => $hashedPassword,
+        ':id' => $userId
+    ]);
+
+    echo json_encode(['success' => true, 'message' => 'Mot de passe mis à jour avec succès']);
+
+} catch (Throwable $e) {
+    http_response_code(500);
+    echo json_encode([
+        'error' => 'Erreur serveur',
+        'details' => $e->getMessage()
+    ]);
 }

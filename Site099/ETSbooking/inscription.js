@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const errorMsg = document.getElementById('errorMsg');
   const successMsg = document.getElementById('successMsg');
 
-  // Fonction pour reset les erreurs visuelles
   function clearErrors() {
     errorMsg.textContent = '';
     successMsg.textContent = '';
@@ -24,14 +23,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const dateNaissance = document.getElementById('dateNaissance').value.trim();
     const passeport = document.getElementById('passeport').value.trim();
 
-    // 🔹 Nettoyer le téléphone : garder uniquement les chiffres
     telephone = telephone.replace(/\D/g, '');
 
-    // Stocker les infos supplémentaires en localStorage
     localStorage.setItem('dateNaissance', dateNaissance);
     localStorage.setItem('passeport', passeport);
 
-    // === VALIDATIONS PREMIUM ===
     if (!motDePasse || motDePasse.length < 6) {
       errorMsg.textContent = "Le mot de passe doit contenir au moins 6 caractères.";
       document.getElementById('password').style.border = '2px solid #ff4d4d';

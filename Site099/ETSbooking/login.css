@@ -1,4 +1,3 @@
-/* RESET GLOBAL */
 * {
   margin: 0;
   padding: 0;
@@ -12,14 +11,12 @@ body {
   justify-content: center;
   align-items: center;
 
-  /* === Fond image lumineuse === */
   background: url("../assets/images/843459aa7e677db64ddc760c03b8f7fe.jpg") no-repeat center center/cover;
 }
 
-/* CONTAINER DU FORMULAIRE */
 .login-container {
-  background: rgba(255, 255, 255, 0.3); /* effet glass clair */
-  backdrop-filter: blur(12px); /* verre flouté */
+  background: rgba(255, 255, 255, 0.3); 
+  backdrop-filter: blur(12px); 
   border-radius: 15px;
   padding: 40px 50px;
   width: 350px;
@@ -28,10 +25,10 @@ body {
   animation: fadeIn 0.8s ease-in-out;
 }
 
-/* TITRE */
+
 .login-container h2 {
   font-size: 2rem;
-  color: #333; /* plus sombre pour fond clair */
+  color: #333; 
   margin-bottom: 8px;
 }
 
@@ -41,7 +38,6 @@ body {
   margin-bottom: 25px;
 }
 
-/* LABELS */
 .login-container label {
   display: block;
   text-align: left;
@@ -51,7 +47,6 @@ body {
   font-weight: 500;
 }
 
-/* INPUTS */
 .login-container input {
   width: 100%;
   padding: 10px 12px;
@@ -69,7 +64,6 @@ body {
   box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
 }
 
-/* BOUTON DE CONNEXION */
 .login-container button {
   width: 100%;
   padding: 12px;
@@ -90,7 +84,6 @@ body {
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 
-/* MESSAGES */
 .error {
   color: #ff4d4d;
   font-size: 0.85rem;
@@ -103,7 +96,6 @@ body {
   margin-bottom: 10px;
 }
 
-/* LIEN CRÉER COMPTE */
 .login-container a {
   color: #ff7b00;
   font-weight: 600;
@@ -114,7 +106,6 @@ body {
   text-decoration: underline;
 }
 
-/* ANIMATION D'APPARITION */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }

@@ -1,4 +1,3 @@
-/* === Style global === */
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
@@ -10,7 +9,6 @@ body {
   min-height: 100vh;
 }
 
-/* === Container principal === */
 .profile-container {
   background: rgba(255, 255, 255, 0.88);
   padding: 40px;
@@ -21,13 +19,11 @@ body {
   animation: fadeIn 0.5s ease-in-out;
 }
 
-/* Animation d'apparition douce */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-20px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* === Titre et sous-titre === */
 .profile-container h2 {
   margin-bottom: 5px;
   color: #333;
@@ -40,7 +36,6 @@ body {
   color: #555;
 }
 
-/* === Formulaires === */
 form {
   display: flex;
   flex-direction: column;
@@ -70,7 +65,6 @@ input:focus {
   box-shadow: 0 0 5px #ffb74d;
 }
 
-/* === Boutons === */
 button {
   padding: 10px;
   margin-top: 5px;
@@ -88,7 +82,6 @@ button:hover {
   transform: translateY(-2px);
 }
 
-/* Bouton de déconnexion */
 .logout {
   background-color: #ff7043;
 }
@@ -97,19 +90,16 @@ button:hover {
   background-color: #f4511e;
 }
 
-/* Boutons côte à côte pour profil */
 .buttons {
   display: flex;
   justify-content: space-between;
   margin-top: 10px;
 }
 
-/* Messages d'erreur/succès */
 #message, #passwordMessage {
   margin-top: 10px;
   font-size: 14px;
   font-weight: bold;
 }
 
-/* Couleurs de succès et d'erreur gérées par JS */
 

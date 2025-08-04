@@ -1,37 +1,52 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Confirmation – FlightETS</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <title>Confirmation de réservation - FlightETS</title>
+
+  <link rel="stylesheet" href="navbar.css">
+  <link rel="stylesheet" href="confirmation.css">
 </head>
 <body>
-  <header>
-    <div class="container">
-      <h1><i class="fas fa-plane"></i> Confirmation de vol</h1>
-      <nav>
-        <a href="index.html"><i class="fas fa-home"></i> Accueil</a>
-        <a href="historique.html"><i class="fas fa-clock-rotate-left"></i> Historique</a>
-        <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
-      </nav>
-    </div>
-  </header>
 
-  <main>
-    <section class="search-section">
-      <h2>Détails de votre réservation</h2>
-      <div id="confirmation-details"></div>
-      <button id="paymentBtn">Procéder au paiement</button>
+  <nav class="navbar">
+    <div class="logo">
+      <img src="../assets/images/5a5de9f010820f4426c952b0d4a31b8e.jpg" alt="FlightETS Logo">
+      <span>FlightETS</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="recherche.html">Rechercher un vol</a></li>
+      <li><a href="historique.html">Mes réservations</a></li>
+      <li><a href="profil.html" id="nav-user">Mon profil</a></li>
+      <li><a href="login.html" id="nav-login">Connexion</a></li>
+      <li><a href="inscription.html" id="nav-register">Inscription</a></li>
+      <li><a href="#" id="nav-logout">Déconnexion</a></li>
+    </ul>
+  </nav>
+
+  <main class="confirmation-container">
+
+    <section class="flight-summary">
+      <h2>Votre vol sélectionné</h2>
+      <div id="selectedFlight" class="flight-card"></div>
+    </section>
+
+    <section class="passenger-form">
+      <h2>Informations du passager</h2>
+      <form id="confirmationForm">
+        <div class="form-group">
+          <label>Nom complet</label>
+          <input type="text" id="nomPassager" readonly>
+        </div>
+
+        <button type="submit">Confirmer la réservation</button>
+      </form>
     </section>
   </main>
 
-  <footer>
-    <p>&copy; 2025 FlightETS. Tous droits réservés.</p>
-  </footer>
-
+  <script src="navbar.js"></script>
   <script src="confirmation.js"></script>
 </body>
 </html>

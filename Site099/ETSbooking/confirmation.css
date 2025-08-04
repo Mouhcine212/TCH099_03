@@ -1,0 +1,165 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+  background: url("../assets/images/221e76ae1d8857b788a264482c70ec9b.jpg") no-repeat center center fixed;
+  background-size: cover;
+  min-height: 100vh;
+  color: #222;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255,255,255,0.3);
+  z-index: -1;
+}
+
+.confirmation-container {
+  max-width: 1000px;
+  margin: 120px auto 50px auto; 
+  background: rgba(255,255,255,0.85);
+  padding: 30px 40px;
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+
+.confirmation-container section {
+  margin-bottom: 40px;
+}
+
+.confirmation-container h2,
+.confirmation-container h3 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #ff7a00;
+}
+
+.flight-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  padding: 20px 30px;
+  margin: 0 auto 20px auto;
+  max-width: 600px;
+  text-align: center;
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+.flight-card h3 {
+  color: #ff7a00;
+  margin-bottom: 12px;
+}
+
+.flight-info {
+  display: flex;
+  justify-content: space-between;
+  margin: 6px 0;
+  font-size: 1rem;
+  color: #333;
+}
+
+.passenger-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 500px;
+  margin: auto;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  outline: none;
+  font-size: 1rem;
+}
+
+.seat-map {
+  display: grid;
+  grid-template-columns: repeat(6, 40px);
+  gap: 10px;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.seat {
+  width: 40px;
+  height: 40px;
+  background: #eee;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.seat:hover {
+  background: #ff7a00;
+  color: white;
+}
+
+.seat.selected {
+  background: #ff7a00;
+  color: white;
+}
+
+.seat.occupied {
+  background: #999;
+  cursor: not-allowed;
+}
+
+button[type="submit"] {
+  background: #ff7a00;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: 0.3s;
+}
+
+button[type="submit"]:hover {
+  background: #e86c00;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .confirmation-container {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .seat-map {
+    grid-template-columns: repeat(4, 40px);
+  }
+}

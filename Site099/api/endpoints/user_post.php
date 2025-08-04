@@ -34,7 +34,6 @@ try {
 
     $cnx = Database::getInstance();
 
-    // Vérifie si l'utilisateur existe 
     $stmt = $cnx->prepare("SELECT ID_UTILISATEUR FROM UTILISATEURS WHERE COURRIEL = :email");
     $stmt->bindParam(':email', $email);
     $stmt->execute();
@@ -45,25 +44,27 @@ try {
         exit();
     }
 
-    $plainPassword = $password; // à remplacer par password_hash apres !!!
-    $fullName = $prenom . ' ' . $nom;
+    $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
-    $stmt = $cnx->prepare("INSERT INTO UTILISATEURS (NOM, COURRIEL, MOT_DE_PASSE_HASH, TELEPHONE) 
-                           VALUES (:nom, :email, :password, :telephone)");
+    $fullName = $prenom . ' ' . $nom;
+    $stmt = $cnx->prepare("
+        INSERT INTO UTILISATEURS (NOM, COURRIEL, MOT_DE_PASSE_HASH, TELEPHONE) 
+        VALUES (:nom, :email, :password, :telephone)
+    ");
     $stmt->bindParam(':nom', $fullName);
     $stmt->bindParam(':email', $email);
-    $stmt->bindParam(':password', $plainPassword);
+    $stmt->bindParam(':password', $hashedPassword);
     $stmt->bindParam(':telephone', $telephone);
     $stmt->execute();
 
     $userId = $cnx->lastInsertId();
 
-    // Génère un token
     $token = generate_jwt([
         'id' => $userId,
         'email' => $email,
         'nom' => $fullName,
-        'exp' => time() + 3600
+        'telephone' => $telephone,
+        'exp' => time() + 3600 
     ]);
 
     echo json_encode(['success' => true, 'token' => $token]);
@@ -77,3 +78,4 @@ try {
     ]);
     exit();
 }
+

@@ -5,16 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FlightETS - Accueil</title>
 
-    <!-- CSS principal -->
     <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="navbar.css">
 
-    <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
 </head>
 <body>
 
-    <!-- HEADER NAVBAR -->
     <header class="navbar">
         <div class="logo">
             <img src="../assets/images/5a5de9f010820f4426c952b0d4a31b8e.jpg" alt="FlightETS">
@@ -31,7 +28,6 @@
         </ul>
     </header>
 
-    <!-- HERO SECTION -->
     <section class="hero">
         <div class="hero-content">
             <h2>Voyagez avec Confort et Sérénité</h2>
@@ -40,7 +36,6 @@
         </div>
     </section>
 
-    <!-- JS pour gérer la navbar dynamique -->
     <script>
     document.addEventListener('DOMContentLoaded', () => {
         const token = localStorage.getItem('token');
@@ -51,7 +46,7 @@
 
         if (token) {
             try {
-                const user = JSON.parse(atob(token.split('.')[1])); // Decode JWT fake
+                const user = JSON.parse(atob(token.split('.')[1])); 
                 navUser.textContent = user.nom || "Mon Profil";
                 navUser.style.display = "inline-block";
                 navLogout.style.display = "inline-block";

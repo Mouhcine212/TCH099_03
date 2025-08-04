@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const navLogout = document.getElementById('nav-logout');
 
     if (token) {
-        const user = JSON.parse(atob(token.split('.')[1])); // Decode JWT fake
+        const user = JSON.parse(atob(token.split('.')[1])); 
         navUser.textContent = user.nom || "Mon Profil";
         navUser.style.display = "inline-block";
         navLogout.style.display = "inline-block";

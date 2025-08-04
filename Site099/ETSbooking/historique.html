@@ -4,51 +4,33 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mes réservations - FlightETS</title>
-
-  <!-- Favicon -->
-  <link rel="icon" href="../assets/images/favicon.svg" type="image/svg+xml">
-
-  <!-- CSS global -->
-  <link rel="stylesheet" href="style.css">
-  <!-- CSS historique -->
+  <link rel="stylesheet" href="navbar.css">
   <link rel="stylesheet" href="historique.css">
-
-  <!-- Icônes Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
 
-  <!-- HEADER -->
-  <header class="main-header">
-    <div class="logo-container">
-      <i class="fa-solid fa-plane-departure"></i>
-      <h1>FlightETS</h1>
+  <nav class="navbar">
+    <div class="logo">
+      <img src="../assets/images/5a5de9f010820f4426c952b0d4a31b8e.jpg" alt="FlightETS Logo">
+      <span>FlightETS</span>
     </div>
-    <nav class="main-nav">
-      <a href="index.html"><i class="fa-solid fa-house"></i> Accueil</a>
-      <a href="vols.html"><i class="fa-solid fa-magnifying-glass"></i> Recherche de vol</a>
-      <a href="dashboard.html"><i class="fa-solid fa-user"></i> Mon profil</a>
-      <button id="logoutBtn" class="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Déconnexion</button>
-    </nav>
-  </header>
+    <ul class="nav-links">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="recherche.html">Rechercher un vol</a></li>
+      <li><a href="historique.html" class="active">Mes réservations</a></li>
+      <li><a href="profil.html" id="nav-user">Mon profil</a></li>
+      <li><a href="login.html" id="nav-login">Connexion</a></li>
+      <li><a href="inscription.html" id="nav-register">Inscription</a></li>
+      <li><a href="#" id="nav-logout">Déconnexion</a></li>
+    </ul>
+  </nav>
 
-  <!-- CONTENU -->
-  <main class="container">
-    <h2 class="page-title">Mes réservations</h2>
-    <p class="subtitle">Gérez vos réservations et suivez le statut de vos vols.</p>
-    
-    <div id="historyResults" class="history-container">
-      <!-- Les réservations apparaîtront ici via historique.js -->
-    </div>
+  <main class="history-container">
+    <h1 class="page-title">Mes réservations</h1>
+    <div id="historyResults" class="history-grid"></div>
   </main>
 
-  <!-- FOOTER -->
-  <footer class="main-footer">
-    <p>&copy; 2025 FlightETS - Tous droits réservés</p>
-  </footer>
-
-  <!-- Script JS -->
+  <script src="navbar.js"></script>
   <script src="historique.js"></script>
-
 </body>
 </html>

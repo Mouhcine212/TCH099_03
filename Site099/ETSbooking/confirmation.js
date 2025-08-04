@@ -1,9 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
   const token = localStorage.getItem('token');
-  const params = new URLSearchParams(window.location.search);
-  const volId = params.get('id');
-  const detailsContainer = document.getElementById('confirmation-details');
-  const paymentBtn = document.getElementById('paymentBtn');
+  const detailsContainer = document.getElementById('selectedFlight');
+  const confirmBtn = document.querySelector('#confirmationForm button');
+  const nomInput = document.getElementById('nomPassager');
 
   if (!token) {
     window.location.replace('login.html');
@@ -15,16 +14,20 @@ document.addEventListener('DOMContentLoaded', () => {
     window.history.pushState(null, '', window.location.href);
   });
 
-  document.getElementById('logoutBtn').addEventListener('click', (e) => {
-    e.preventDefault();
-    localStorage.removeItem('token');
-    window.location.replace('login.html');
-  });
-
-  if (!volId) {
+  const selectedFlight = JSON.parse(localStorage.getItem('selectedFlight'));
+  if (!selectedFlight) {
     detailsContainer.innerHTML = "<p class='error'>Aucun vol sélectionné.</p>";
     return;
   }
+
+  detailsContainer.innerHTML = `
+    <h3 style="color:#ff7a00;">${selectedFlight.compagnie} - ${selectedFlight.numero}</h3>
+    <p><strong>${selectedFlight.origineVille} (${selectedFlight.origineCode})</strong> → 
+       <strong>${selectedFlight.destinationVille} (${selectedFlight.destinationCode})</strong></p>
+    <p>Départ : ${selectedFlight.heureDepart}</p>
+    <p>Arrivée : ${selectedFlight.heureArrivee}</p>
+    <p>Classe : ${selectedFlight.classe} | Prix : ${selectedFlight.prix} $</p>
+  `;
 
   function parseJwt(token) {
     try {
@@ -33,42 +36,60 @@ document.addEventListener('DOMContentLoaded', () => {
       return null;
     }
   }
-
   const user = parseJwt(token);
+  if (user && user.nom) nomInput.value = user.nom;
 
-  fetch(`http://localhost/api/get_flight_by_id/${volId}`, {
-    headers: {
-      'Authorization': `Bearer ${token}`
-    }
-  })
-    .then(res => res.json())
-    .then(data => {
-      if (data.error) {
-        detailsContainer.innerHTML = `<p class='error'>${data.error}</p>`;
-      } else {
-        const vol = data;
-        detailsContainer.innerHTML = `
-          <div class="card">
-            <p><strong>Nom du passager :</strong> ${user.nom}</p>
-            <p><strong>Origine :</strong> ${vol.ORIGINE}</p>
-            <p><strong>Destination :</strong> ${vol.DESTINATION}</p>
-            <p><strong>Date de départ :</strong> ${new Date(vol.HEURE_DEPART).toLocaleString()}</p>
-            <p><strong>Heure d’arrivée :</strong> ${new Date(vol.HEURE_ARRIVEE).toLocaleString()}</p>
-            <p><strong>Compagnie :</strong> ${vol.COMPAGNIE}</p>
-            <p><strong>Numéro de vol :</strong> ${vol.NUMERO_VOL}</p>
-            <p><strong>Classe :</strong> ${vol.CLASSE}</p>
-            <p><strong>Prix :</strong> ${vol.PRIX} $</p>
-          </div>
-        `;
+  confirmBtn.addEventListener('click', async (e) => {
+    e.preventDefault();
+
+    const randomRow = Math.floor(Math.random() * 30) + 1;
+    const randomSeat = String.fromCharCode(65 + Math.floor(Math.random() * 6));
+    const seatNumber = `${randomRow}${randomSeat}`;
+
+    try {
+      const res = await fetch('http://localhost/api/create_reservation', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          id_vol: selectedFlight.id,
+          numero_siege: seatNumber
+        })
+      });
+
+      const text = await res.text();
+      console.log("Réponse brute create_reservation:", text);
+
+      if (!res.ok) {
+        alert("Erreur HTTP: " + res.status);
+        return;
       }
-    })
-    .catch(() => {
-      detailsContainer.innerHTML = `<p class='error'>Erreur lors du chargement du vol.</p>`;
-    });
 
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch (e) {
+        alert("Réponse invalide (non-JSON). Voir console.");
+        return;
+      }
 
-  paymentBtn.addEventListener('click', () => {
-    sessionStorage.setItem('vol_id', volId); 
-    window.location.href = "paiement.html"; 
+      if (data.success) {
+        const reservationData = {
+          id_reservation: data.id_reservation,
+          nom: nomInput.value,
+          vol: selectedFlight,
+          siege: seatNumber
+        };
+        localStorage.setItem('reservationData', JSON.stringify(reservationData));
+
+        window.location.href = "paiement.html";
+      } else {
+        alert(data.error || "Erreur lors de la réservation");
+      }
+    } catch (err) {
+      alert("Erreur réseau lors de la réservation.");
+    }
   });
 });

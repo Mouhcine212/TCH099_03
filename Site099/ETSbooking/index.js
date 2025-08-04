@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const logoutLink = document.getElementById('logoutLink');
     const userName = document.getElementById('userName');
 
-    // Gestion du menu dynamique
     if (token) {
         if (loginLink) loginLink.style.display = 'none';
         if (registerLink) registerLink.style.display = 'none';

@@ -1,136 +1,110 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const logoutBtn = document.getElementById('logoutBtn');
   const container = document.getElementById('historyResults');
   const token = localStorage.getItem('token');
 
   if (!token) {
-    window.location.replace('login.html');
+    window.location.href = 'login.html';
     return;
   }
 
-  // Empêche retour arrière
-  window.history.pushState(null, '', window.location.href);
-  window.addEventListener('popstate', () => {
-    window.history.pushState(null, '', window.location.href);
-  });
+  function createCard(resa) {
+    const card = document.createElement('div');
+    card.className = 'history-card';
+    card.dataset.id = resa.ID_RESERVATION; 
 
-  // Déconnexion
-  if (logoutBtn) {
-    logoutBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      localStorage.removeItem('token');
-      window.location.replace('login.html');
-    });
+    const statusColor =
+      resa.STATUT === 'Confirmée' ? '#00ff88' :
+      resa.STATUT === 'Annulée' ? '#ff4d4d' :
+      '#ffcc00';
+
+    const paiementStatus = resa.STATUT_PAIEMENT === 'Payé'
+      ? `<span class="paid">Payé</span>`
+      : resa.STATUT_PAIEMENT === 'Remboursé'
+      ? `<span class="unpaid">Remboursé</span>`
+      : `<span class="unpaid">Non payé</span>`;
+
+    card.innerHTML = `
+      <h3>${resa.COMPAGNIE} - ${resa.NUMERO_VOL}</h3>
+      <p><strong>De :</strong> ${resa.ORIGINE} → <strong>À :</strong> ${resa.DESTINATION}</p>
+      <p><strong>Départ :</strong> ${resa.HEURE_DEPART}</p>
+      <p><strong>Arrivée :</strong> ${resa.HEURE_ARRIVEE}</p>
+      <p><strong>Siège :</strong> ${resa.NUMERO_SIEGE || 'Non attribué'}</p>
+      <p class="statut"><strong>Statut :</strong> <span style="color:${statusColor};font-weight:bold">${resa.STATUT}</span></p>
+      <p class="paiement"><strong>Paiement :</strong> ${paiementStatus}</p>
+    `;
+
+    if (resa.STATUT !== 'Annulée') {
+      const cancelBtn = document.createElement('button');
+      cancelBtn.textContent = 'Annuler la réservation';
+      cancelBtn.className = 'cancel-btn';
+      cancelBtn.addEventListener('click', () => annulerReservation(resa.ID_RESERVATION, card));
+      card.appendChild(cancelBtn);
+    }
+
+    return card;
   }
 
-  // Chargement de l'historique
-  if (container) {
+  function loadHistorique() {
     fetch('http://localhost/api/historique', {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
+      headers: { 'Authorization': `Bearer ${token}` }
     })
-    .then(res => res.json())
-    .then(data => {
-      if (Array.isArray(data) && data.length > 0) {
-        container.innerHTML = data.map(resa => {
-          const statut = resa.STATUT ?? "Confirmée";
-          let statutClass = "confirmed";
-          if (statut.toLowerCase().includes('attente')) statutClass = "pending";
-          if (statut.toLowerCase().includes('annul')) statutClass = "cancelled";
+      .then(res => res.json())
+      .then(data => {
+        container.innerHTML = '';
 
-          const isAnnulee = statutClass === "cancelled";
-          const button = isAnnulee 
-            ? `<button type="button" class="btn-annuler" disabled>Annulée</button>` 
-            : `<button type="button" class="btn-annuler" onclick="annulerReservation(${resa.ID_RESERVATION})">Annuler</button>`;
+        if (!Array.isArray(data) || data.length === 0) {
+          container.innerHTML = '<p style="text-align:center;color:white;">Aucune réservation trouvée.</p>';
+          return;
+        }
 
-          return `
-            <div class="history-item" id="reservation-${resa.ID_RESERVATION}">
-              <div class="history-left">
-                <h3>Vol ${resa.ORIGINE} → ${resa.DESTINATION}</h3>
-                <p><strong>Départ :</strong> ${new Date(resa.HEURE_DEPART).toLocaleString()}</p>
-                <p><strong>Arrivée :</strong> ${new Date(resa.HEURE_ARRIVEE).toLocaleString()}</p>
-                <p><strong>Siège :</strong> ${resa.NUMERO_SIEGE || "-"}</p>
-              </div>
-              <div class="history-right">
-                <div>
-                  <p><strong>Compagnie :</strong> ${resa.COMPAGNIE}</p>
-                  <p><strong>Prix :</strong> ${resa.PRIX} $</p>
-                  ${resa.NUMERO_PASSEPORT ? `<p><strong>Passeport :</strong> ${resa.NUMERO_PASSEPORT}</p>` : ''}
-                  <span class="statut ${statutClass}">${statut}</span>
-                </div>
-                ${button}
-              </div>
-            </div>
-          `;
-        }).join('');
-      } else {
-        container.innerHTML = `<p class="info">Aucun vol réservé trouvé.</p>`;
-      }
-    })
-    .catch(() => {
-      container.innerHTML = '<p class="error">Erreur de connexion au serveur.</p>';
-    });
-  }
-});
-
-// Fonction pour annuler une réservation
-async function annulerReservation(reservationId) {
-  const token = localStorage.getItem('token');
-  if (!token) {
-    alert("Vous devez être connecté pour annuler une réservation.");
-    window.location.replace('login.html');
-    return;
+        data.forEach(resa => container.appendChild(createCard(resa)));
+      })
+      .catch(err => {
+        console.error('Erreur chargement historique :', err);
+        container.innerHTML = '<p style="color:red;text-align:center;">Erreur serveur.</p>';
+      });
   }
 
-  const payload = { reservation_id: reservationId };
-  const url = 'http://localhost/api/annuler_reservation';
+  function annulerReservation(idReservation, cardElement) {
+    if (!confirm("Voulez-vous vraiment annuler cette réservation ?")) return;
 
-  try {
-    const response = await fetch(url, {
+    fetch('http://localhost/api/annuler_reservation', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
       },
-      body: JSON.stringify(payload)
-    });
+      body: JSON.stringify({ id_reservation: idReservation })
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          alert("Réservation annulée !");
 
-    const text = await response.text();
-    let data;
+          
+          const statutEl = cardElement.querySelector('.statut span');
+          statutEl.textContent = data.statut_reservation;
+          statutEl.style.color = '#ff4d4d'; 
 
-    try {
-      data = JSON.parse(text);
-    } catch {
-      alert("Erreur serveur : Réponse invalide.");
-      console.error("Réponse brute (non JSON):", text);
-      return;
-    }
+          const paiementEl = cardElement.querySelector('.paiement');
+          paiementEl.innerHTML = `<strong>Paiement :</strong> ${
+            data.statut_paiement === 'Remboursé'
+              ? '<span class="unpaid">Remboursé</span>'
+              : '<span class="unpaid">Non payé</span>'
+          }`;
 
-    if (data.success) {
-      alert(data.message || "Réservation annulée avec succès !");
-      
-      // Mise à jour dynamique
-      const item = document.getElementById(`reservation-${reservationId}`);
-      if (item) {
-        const statutElem = item.querySelector(".statut");
-        const btn = item.querySelector(".btn-annuler");
-        if (statutElem) {
-          statutElem.textContent = "Annulée";
-          statutElem.classList.remove("confirmed", "pending");
-          statutElem.classList.add("cancelled");
+          const cancelBtn = cardElement.querySelector('.cancel-btn');
+          if (cancelBtn) cancelBtn.remove();
+
+        } else {
+          alert(data.error || "Erreur lors de l'annulation");
         }
-        if (btn) {
-          btn.textContent = "Annulée";
-          btn.disabled = true;
-        }
-      }
-
-    } else {
-      alert(data.message || "Impossible d'annuler la réservation.");
-    }
-  } catch (error) {
-    console.error("Erreur réseau :", error);
-    alert("Erreur de connexion. Veuillez réessayer.");
+      })
+      .catch(err => {
+        console.error('Erreur annulation :', err);
+        alert("Erreur serveur");
+      });
   }
-}
+
+  loadHistorique();
+});

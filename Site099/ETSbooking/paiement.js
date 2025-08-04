@@ -1,78 +1,92 @@
 document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('paiementForm');
+  const cardNumber = document.getElementById('numCarte');
+  const expiryDate = document.getElementById('expCarte');
+  const cvv = document.getElementById('cvvCarte');
+
   const token = localStorage.getItem('token');
-  const idVol = sessionStorage.getItem('vol_id');
+  const reservationData = JSON.parse(localStorage.getItem('reservationData'));
 
-  if (!token) return window.location.href = 'login.html';
-  if (!idVol) return window.location.href = 'index.html';
-
-  const logoutBtn = document.getElementById('logoutBtn');
-  if (logoutBtn) {
-    logoutBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      localStorage.removeItem('token');
-      window.location.replace('login.html');
-    });
+  if (!token || !reservationData) {
+    alert("Aucune réservation à payer !");
+    window.location.href = "recherche.html";
+    return;
   }
 
-  const volDetails = document.getElementById('vol-details');
-  fetch(`http://localhost/api/get_flight_by_id/${idVol}`, {
-    headers: { 'Authorization': `Bearer ${token}` }
-  })
-    .then(res => res.json())
-    .then(vol => {
-      if (vol.error) {
-        volDetails.innerHTML = `<p class="error">${vol.error}</p>`;
-      } else {
-        volDetails.innerHTML = `
-          <p><strong>Origine :</strong> ${vol.ORIGINE}</p>
-          <p><strong>Destination :</strong> ${vol.DESTINATION}</p>
-          <p><strong>Départ :</strong> ${new Date(vol.HEURE_DEPART).toLocaleString()}</p>
-          <p><strong>Arrivée :</strong> ${new Date(vol.HEURE_ARRIVEE).toLocaleString()}</p>
-          <p><strong>Compagnie :</strong> ${vol.COMPAGNIE}</p>
-          <p><strong>Prix :</strong> ${vol.PRIX} $</p>
-        `;
-      }
-    });
+  console.log('Debug paiement:', reservationData);
 
-  
-  const form = document.getElementById('paiementForm');
+  cardNumber.addEventListener('input', () => {
+    let val = cardNumber.value.replace(/\D/g, '');
+    cardNumber.value = val.replace(/(.{4})/g, '$1 ').trim();
+  });
+
+  expiryDate.addEventListener('input', () => {
+    let val = expiryDate.value.replace(/\D/g, '');
+    if (val.length >= 3) {
+      expiryDate.value = val.slice(0, 2) + '/' + val.slice(2, 4);
+    } else {
+      expiryDate.value = val;
+    }
+  });
+
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const row = Math.floor(Math.random() * 30) + 1;
-    const seat = String.fromCharCode(65 + Math.floor(Math.random() * 6)); // A-F
-    const numeroSiege = `${row}${seat}`;
+    const num = cardNumber.value.replace(/\s/g, '');
+    const exp = expiryDate.value;
+    const cvvVal = cvv.value;
 
-    const dateNaissance = localStorage.getItem('dateNaissance');
-    const numeroPasseport = localStorage.getItem('passeport');
+    if (!/^\d{16}$/.test(num)) {
+      alert("Numéro de carte invalide (16 chiffres)");
+      return;
+    }
+    if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(exp)) {
+      alert("Date d'expiration invalide (MM/AA)");
+      return;
+    }
+    if (!/^\d{3}$/.test(cvvVal)) {
+      alert("CVV invalide (3 chiffres)");
+      return;
+    }
+
+    const idReservation = reservationData.id_reservation;
+    const montant = reservationData.vol.PRIX || reservationData.vol.prix;
+
+    if (!idReservation || !montant) {
+      alert("Impossible de procéder au paiement : réservation incomplète.");
+      console.error('reservationData incomplet:', reservationData);
+      return;
+    }
 
     try {
-      const res = await fetch('http://localhost/api/paiement', {
+      const res = await fetch('http://localhost/api/process_payment', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
-          id_vol: parseInt(idVol),
-          methode: "Carte",
-          numero_siege: numeroSiege,
-          date_naissance: dateNaissance,
-          numero_passeport: numeroPasseport
+          id_reservation: idReservation,
+          montant: montant,
+          methode: 'Carte'
         })
       });
 
       const data = await res.json();
+      console.log('Réponse paiement:', data);
 
-      if (res.ok) {
-        alert(`Paiement confirmé. Siège : ${numeroSiege}`);
-        sessionStorage.removeItem('vol_id');
+      if (data.success) {
+        alert('💳 Paiement réussi !');
+        localStorage.removeItem('reservationData');
         window.location.href = "historique.html";
       } else {
-        alert(`Paiement échoué : ${data.error || data.details}`);
+        alert(data.error || 'Erreur lors du paiement.');
       }
-    } catch (err) {
-      alert("Une erreur s’est produite.");
+
+    } catch (error) {
+      alert("Erreur réseau lors du paiement.");
+      console.error(error);
     }
   });
 });
+

@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  // 🔹 Décoder le JWT
   function parseJwt(token) {
     try {
       return JSON.parse(atob(token.split('.')[1]));
@@ -27,22 +26,18 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  // 🔹 Pré-remplissage
   nameInput.value = user.nom || '';
   emailInput.value = user.email || '';
   phoneInput.value = user.telephone || '';
 
-  // 🔹 Bouton retour
   backBtn.addEventListener('click', () => {
     window.location.href = 'index.html';
   });
 
-  // 🔹 Validation téléphone
   function isPhoneValid(phone) {
     return /^\d{10}$/.test(phone);
   }
 
-  // === Gestion du bouton Modifier / Confirmer ===
   const editBtn = document.getElementById('saveBtn');
   let editMode = false;
 
@@ -50,19 +45,16 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
 
     if (!editMode) {
-      // Active les champs pour édition
       nameInput.disabled = false;
       emailInput.disabled = false;
       phoneInput.disabled = false;
       editBtn.textContent = "Confirmer";
       editMode = true;
     } else {
-      // Soumission réelle
       profileForm.requestSubmit();
     }
   });
 
-  // === Soumission du formulaire pour mise à jour ===
   profileForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     message.textContent = "";
@@ -92,23 +84,20 @@ document.addEventListener('DOMContentLoaded', () => {
       const data = await res.json();
 
       if (res.ok && data.success) {
-        // 🔹 Stocker le nouveau token
         if (data.token) {
           localStorage.setItem('token', data.token);
-          user = parseJwt(data.token); // met à jour l'objet utilisateur
+          user = parseJwt(data.token); 
         }
 
         message.style.color = "#14ca50";
         message.textContent = "Profil mis à jour avec succès ! Redirection...";
 
-        // Désactive les champs
         nameInput.disabled = true;
         emailInput.disabled = true;
         phoneInput.disabled = true;
         editBtn.textContent = "Modifier";
         editMode = false;
 
-        // Redirection après 1.5s
         setTimeout(() => {
           window.location.href = 'index.html';
         }, 1500);
@@ -126,7 +115,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// === FORMULAIRE CHANGEMENT DE MOT DE PASSE ===
 const passwordForm = document.getElementById('passwordForm');
 const passwordMessage = document.getElementById('passwordMessage');
 
@@ -170,10 +158,9 @@ passwordForm.addEventListener('submit', async (e) => {
 
     if (res.ok && data.success) {
       passwordMessage.style.color = "#14ca50";
-      passwordMessage.textContent = "Mot de passe modifié avec succès ✅";
+      passwordMessage.textContent = "Mot de passe modifié avec succès";
       passwordForm.reset();
 
-      // Déconnexion après changement
       setTimeout(() => {
         localStorage.removeItem('token');
         window.location.href = 'login.html';

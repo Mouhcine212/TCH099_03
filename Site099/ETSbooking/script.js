@@ -1,6 +1,3 @@
-
-
-// === RECHERCHE DE VOLS ===
 const searchForm = document.getElementById('searchForm');
 if (searchForm) {
   searchForm.addEventListener('submit', async (e) => {

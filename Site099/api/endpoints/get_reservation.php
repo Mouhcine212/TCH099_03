@@ -1,6 +1,6 @@
 <?php
 require_once(__DIR__ . '/../db/Database.php');
-require_once(__DIR__ . '/../jwt/utils.php');
+require_once(__DIR__ . '/../utils/jwt.php');
 
 header('Content-Type: application/json');
 
@@ -15,13 +15,22 @@ if (!$authHeader || !str_starts_with($authHeader, 'Bearer ')) {
 
 $token = substr($authHeader, 7);
 $userData = verify_jwt($token);
-if (!$userData || (!isset($userData['id']) && !isset($userData['id_utilisateur']))) {
+if (!$userData || !isset($userData['id_utilisateur'])) {
     http_response_code(401);
     echo json_encode(['error' => 'Token invalide']);
     exit();
 }
 
-$idUtilisateur = $userData['id_utilisateur'] ?? $userData['id'];
+$idUtilisateur = $userData['id_utilisateur'];
+
+$request_uri = explode('/', trim($_SERVER['REQUEST_URI'], '/'));
+$idReservation = end($request_uri);
+
+if (!$idReservation || !is_numeric($idReservation)) {
+    http_response_code(400);
+    echo json_encode(['error' => 'ID réservation manquant ou invalide']);
+    exit();
+}
 
 try {
     $cnx = Database::getInstance();
@@ -30,9 +39,10 @@ try {
         SELECT 
             r.ID_RESERVATION,
             r.NUMERO_SIEGE,
-            r.STATUT AS STATUT,
+            r.STATUT AS STATUT_RESERVATION,
             r.DATE_RESERVATION,
-            
+
+            v.ID_VOL,
             v.COMPAGNIE,
             v.NUMERO_VOL,
             v.HEURE_DEPART,
@@ -41,36 +51,31 @@ try {
             v.PRIX,
 
             ao.VILLE AS ORIGINE,
-            ao.CODE_IATA AS ORIGINE_CODE,
+            ao.CODE_IATA AS ORIGINE_IATA,
             ad.VILLE AS DESTINATION,
-            ad.CODE_IATA AS DESTINATION_CODE,
+            ad.CODE_IATA AS DESTINATION_IATA
 
-            COALESCE(pay.STATUT, 'Non payé') AS STATUT_PAIEMENT
         FROM RESERVATIONS r
         INNER JOIN VOLS v ON r.ID_VOL = v.ID_VOL
         INNER JOIN AEROPORTS ao ON v.ID_AEROPORT_ORIGINE = ao.ID_AEROPORT
         INNER JOIN AEROPORTS ad ON v.ID_AEROPORT_DESTINATION = ad.ID_AEROPORT
-        LEFT JOIN PAIEMENTS pay ON pay.ID_RESERVATION = r.ID_RESERVATION
-        WHERE r.ID_UTILISATEUR = ?
-        ORDER BY r.DATE_RESERVATION DESC
+        WHERE r.ID_RESERVATION = ? AND r.ID_UTILISATEUR = ?
+        LIMIT 1
     ";
 
     $pstmt = $cnx->prepare($sql);
-    $pstmt->execute([$idUtilisateur]);
-    $reservations = $pstmt->fetchAll(PDO::FETCH_ASSOC);
+    $pstmt->execute([$idReservation, $idUtilisateur]);
+    $reservation = $pstmt->fetch(PDO::FETCH_ASSOC);
 
-    foreach ($reservations as &$resa) {
-        $resa['HEURE_DEPART'] = date('Y-m-d H:i', strtotime($resa['HEURE_DEPART']));
-        $resa['HEURE_ARRIVEE'] = date('Y-m-d H:i', strtotime($resa['HEURE_ARRIVEE']));
-        $resa['DATE_RESERVATION'] = date('Y-m-d H:i', strtotime($resa['DATE_RESERVATION']));
+    if (!$reservation) {
+        http_response_code(404);
+        echo json_encode(['error' => 'Réservation introuvable']);
+        exit();
     }
 
-    echo json_encode($reservations);
+    echo json_encode($reservation);
 
 } catch (PDOException $e) {
     http_response_code(500);
-    echo json_encode([
-        'error' => 'Erreur serveur',
-        'details' => $e->getMessage()
-    ]);
+    echo json_encode(['error' => 'Erreur serveur', 'details' => $e->getMessage()]);
 }

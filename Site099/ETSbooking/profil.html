@@ -3,22 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mon Profil – FlightETS</title>
+  <title>Mon Profil   FlightETS</title>
 
-  <!-- ✅ Favicon -->
   <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg">
 
-  <!-- ✅ CSS principal -->
   <link rel="stylesheet" href="profil.css">
 </head>
 <body>
 
-  <!-- === CONTENU PROFIL === -->
   <div class="profile-container">
     <h2>Mon Profil</h2>
     <p>Gère tes informations personnelles :</p>
 
-    <!-- Formulaire informations du profil -->
     <form id="profileForm">
       <label for="fullName">Nom complet :</label>
       <input type="text" id="fullName" disabled />
@@ -31,17 +27,14 @@
 
       <div class="buttons">
         <button type="submit" id="saveBtn">Modifier</button>
-        <!-- ✅ Bouton Retour vers l'accueil -->
         <button type="button" id="backBtn" class="logout">Retour</button>
       </div>
 
       <div id="message"></div>
     </form>
 
-    <!-- Séparateur -->
     <hr style="margin: 30px 0;">
 
-    <!-- Formulaire changement de mot de passe -->
     <h3>Changer mon mot de passe</h3>
     <form id="passwordForm">
       <label for="currentPassword">Mot de passe actuel :</label>
@@ -58,10 +51,8 @@
     </form>
   </div>
 
-  <!-- ✅ Script principal -->
   <script src="profil.js"></script>
 
-  <!-- ✅ Script pour gérer le bouton Retour -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const backBtn = document.getElementById('backBtn');

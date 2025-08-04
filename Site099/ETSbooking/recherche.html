@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recherche de vols - FlightETS</title>
+
+  <link rel="stylesheet" href="navbar.css">
+  <link rel="stylesheet" href="recherche.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="logo">
+      <img src="../assets/images/5a5de9f010820f4426c952b0d4a31b8e.jpg" alt="FlightETS Logo">
+      <span>FlightETS</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="index.html" id="nav-home">Accueil</a></li>
+      <li><a href="recherche.html" class="active">Rechercher un vol</a></li>
+      <li><a href="historique.html">Mes réservations</a></li>
+      <li><a href="profil.html" id="nav-user">Mon profil</a></li>
+      <li><a href="login.html" id="nav-login">Connexion</a></li>
+      <li><a href="inscription.html" id="nav-register">Inscription</a></li>
+      <li><a href="#" id="nav-logout">Déconnexion</a></li>
+    </ul>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-content">
+      <h1>Où pouvons-nous vous emmener ?</h1>
+      <form id="searchForm" class="search-form">
+        <div class="form-row">
+          <input list="origines" id="origine" placeholder="Aéroport de départ" required>
+          <datalist id="origines"></datalist>
+
+          <input list="destinations" id="destination" placeholder="Aéroport d'arrivée" required>
+          <datalist id="destinations"></datalist>
+
+          <input type="date" id="dateDepart">
+          <button type="submit">Rechercher</button>
+        </div>
+      </form>
+    </div>
+  </header>
+
+  <main class="results-container">
+
+    <div id="loader" class="loader-container" style="display:none;">
+      <div class="loader"></div>
+      <p>Recherche de vols en cours...</p>
+    </div>
+
+    <div id="resultsCards" class="cards-container"></div>
+  </main>
+
+  <script src="navbar.js"></script>
+  <script src="recherche.js"></script>
+</body>
+</html>

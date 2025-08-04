@@ -1,48 +1,59 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Paiement – FlightETS</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paiement - FlightETS</title>
+
+  <link rel="stylesheet" href="navbar.css">
+  <link rel="stylesheet" href="paiement.css">
 </head>
 <body>
-  <header>
-    <div class="container">
-      <h1><i class="fas fa-plane-departure"></i> FlightETS</h1>
-      <nav>
-        <a href="index.html"><i class="fas fa-home"></i> Accueil</a>
-        <a href="historique.html"><i class="fas fa-clock-rotate-left"></i> Historique</a>
-        <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
-      </nav>
+
+  <nav class="navbar">
+    <div class="logo">
+      <img src="../assets/images/5a5de9f010820f4426c952b0d4a31b8e.jpg" alt="FlightETS Logo">
+      <span>FlightETS</span>
     </div>
-  </header>
+    <ul class="nav-links">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="recherche.html">Rechercher un vol</a></li>
+      <li><a href="historique.html">Mes réservations</a></li>
+      <li><a href="profil.html" id="nav-user">Mon profil</a></li>
+      <li><a href="login.html" id="nav-login">Connexion</a></li>
+      <li><a href="inscription.html" id="nav-register">Inscription</a></li>
+      <li><a href="#" id="nav-logout">Déconnexion</a></li>
+    </ul>
+  </nav>
 
-  <main>
-    <div class="form-container">
-      <h2>Paiement du vol</h2>
-      <div id="vol-details" class="card"></div>
+  <main class="paiement-container">
 
+    <section class="payment-form">
+      <h2>Paiement sécurisé</h2>
       <form id="paiementForm">
-        <h3>Informations de carte (fictives)</h3>
-        <label for="nomCarte">Nom sur la carte :</label>
-        <input type="text" id="nomCarte" placeholder="Jean Dupont" required />
+        <div class="form-group">
+          <label>Numéro de carte</label>
+          <input type="text" id="numCarte" maxlength="19" placeholder="1234 5678 9012 3456" required>
+        </div>
 
-        <label for="numeroCarte">Numéro de carte :</label>
-        <input type="text" id="numeroCarte" placeholder="1234 5678 9012 3456" required />
+        <div class="form-inline">
+          <div class="form-group">
+            <label>Date d'expiration</label>
+            <input type="text" id="expCarte" maxlength="5" placeholder="MM/AA" required>
+          </div>
 
-        <label for="expiration">Date d’expiration :</label>
-        <input type="text" id="expiration" placeholder="MM/AA" required />
+          <div class="form-group">
+            <label>CVV</label>
+            <input type="text" id="cvvCarte" maxlength="3" placeholder="123" required>
+          </div>
+        </div>
 
-        <label for="cvv">CVV :</label>
-        <input type="text" id="cvv" placeholder="123" required />
-
-        <button type="submit">Confirmer le paiement</button>
+        <button type="submit">Payer maintenant</button>
       </form>
-    </div>
+    </section>
   </main>
 
+  <script src="navbar.js"></script>
   <script src="paiement.js"></script>
 </body>
 </html>

@@ -1,0 +1,150 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+  background: url("../assets/images/221e76ae1d8857b788a264482c70ec9b.jpg") no-repeat center center fixed;
+  background-size: cover;
+  min-height: 100vh;
+  color: #222;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255,255,255,0.3);
+  z-index: -1;
+}
+
+.paiement-container {
+  max-width: 900px;
+  margin: 120px auto 50px auto;
+  background: rgba(255,255,255,0.85);
+  padding: 30px 40px;
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+
+.paiement-container section {
+  margin-bottom: 40px;
+}
+
+.paiement-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #ff7a00;
+}
+
+.reservation-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  padding: 20px 30px;
+  margin: 0 auto 20px auto;
+  max-width: 600px;
+  text-align: center;
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+.reservation-card h3 {
+  color: #ff7a00;
+  margin-bottom: 12px;
+}
+
+.reservation-info {
+  display: flex;
+  justify-content: space-between;
+  margin: 6px 0;
+  font-size: 1rem;
+  color: #333;
+}
+
+.status {
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.status.en-attente {
+  color: #d35400;
+}
+
+.status.confirmee {
+  color: #27ae60;
+}
+
+.payment-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 500px;
+  margin: auto;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  outline: none;
+  font-size: 1rem;
+}
+
+.form-inline {
+  display: flex;
+  gap: 15px;
+}
+
+.form-inline .form-group {
+  flex: 1;
+}
+
+button[type="submit"] {
+  background: #ff7a00;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: 0.3s;
+}
+
+button[type="submit"]:hover {
+  background: #e86c00;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .paiement-container {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .form-inline {
+    flex-direction: column;
+  }
+}
