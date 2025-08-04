@@ -13,19 +13,21 @@ jobs:
       contents: read
 
     steps:
+      # 1. Récupère le code du repo
       - uses: actions/checkout@v4
 
+      # 2. Installe PHP 8.2
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
 
-      # Upload uniquement le contenu du vrai site (ETSbooking)
+      # 3. Upload du site complet comme artifact
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: php-app
-          path: Site099/ETSbooking/*
+          path: Site099/**   # 🔹 Inclut frontend + api PHP + .htaccess
 
   deploy:
     runs-on: ubuntu-latest
@@ -35,11 +37,13 @@ jobs:
       contents: read
 
     steps:
+      # 1. Récupère l’artifact du job build
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: php-app
 
+      # 2. Connexion à Azure
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -47,9 +51,9 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_35DCFF0C07A5494C8AA7FAD9CEEAC3CF }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_911B245450084991839C47A7C4882D65 }}
 
+      # 3. Déploiement sur Azure Web App
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
-        id: deploy-to-webapp
         with:
           app-name: 'flightets'
           slot-name: 'Production'
