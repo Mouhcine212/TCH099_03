@@ -1,18 +1,20 @@
-
 document.getElementById('loginForm').addEventListener('submit', async function (e) {
   e.preventDefault();
 
-  const email = document.getElementById('email').value.trim();
-  const motDePasse = document.getElementById('motDePasse').value;
+  const courriel = document.getElementById('email').value.trim();
+  const mot_de_passe = document.getElementById('motDePasse').value;
 
   try {
-    const response = await fetch('https://flightets-gghremf5czh9d3ea.canadacentral-01.azurewebsites.net/api/endpoints/login.php', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, motDePasse })
-    });
+    const response = await fetch(
+      'https://flightets-gghremf5czh9d3ea.canadacentral-01.azurewebsites.net/api/endpoints/login.php',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ courriel, mot_de_passe }),
+      }
+    );
 
     const data = await response.json();
 
@@ -20,7 +22,7 @@ document.getElementById('loginForm').addEventListener('submit', async function (
       localStorage.setItem('token', data.token);
       window.location.href = 'index.html';
     } else {
-      document.getElementById('errorMsg').textContent = data.error || 'Erreur inconnue';
+      document.getElementById('errorMsg').textContent = data.error || 'Identifiants invalides';
     }
   } catch (error) {
     console.error('Erreur réseau :', error);
