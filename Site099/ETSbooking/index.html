@@ -1,47 +1,79 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Accueil – FlightETS</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlightETS - Accueil</title>
+
+    <!-- CSS principal -->
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="navbar.css">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
 </head>
 <body>
 
-  <header>
-    <div class="container">
-      <h1><i class="fas fa-plane-departure"></i> FlightETS</h1>
-      <nav>
-        <a href="index.html"><i class="fas fa-home"></i> Accueil</a>
-        <a href="historique.html"><i class="fas fa-clock-rotate-left"></i> Historique</a>
-        <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
-      </nav>
-    </div>
-  </header>
+    <!-- HEADER NAVBAR -->
+    <header class="navbar">
+        <div class="logo">
+            <img src="../assets/images/5a5de9f010820f4426c952b0d4a31b8e.jpg" alt="FlightETS">
+            <span>FlightETS</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="recherche.html">Rechercher un vol</a></li>
+            <li><a href="historique.html">Mes réservations</a></li>
+            <li><a href="profil.html" id="nav-user" style="display:none;"></a></li>
+            <li><a href="login.html" id="nav-login">Connexion</a></li>
+            <li><a href="inscription.html" id="nav-register">Inscription</a></li>
+            <li><a href="#" id="nav-logout" style="display:none;">Déconnexion</a></li>
+        </ul>
+    </header>
 
-  <main>
-    <section class="search-section">
-      <h2>Rechercher un vol</h2>
-      <form id="searchForm">
-        <label for="destination">Destination :</label>
-        <input type="text" id="destination" name="destination" required placeholder="Ex: Paris">
-
-        <label for="date">Date :</label>
-        <input type="date" id="date" name="date" required>
-
-        <button type="submit">Rechercher</button>
-      </form>
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-content">
+            <h2>Voyagez avec Confort et Sérénité</h2>
+            <p>Réservez vos vols facilement avec FlightETS.</p>
+            <a href="recherche.html" class="cta-btn">Rechercher un vol</a>
+        </div>
     </section>
 
-    <section id="results"></section>
-  </main>
+    <!-- JS pour gérer la navbar dynamique -->
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const token = localStorage.getItem('token');
+        const navUser = document.getElementById('nav-user');
+        const navLogin = document.getElementById('nav-login');
+        const navRegister = document.getElementById('nav-register');
+        const navLogout = document.getElementById('nav-logout');
 
-  <footer>
-    <p>&copy; 2025 FlightETS. Tous droits réservés.</p>
-  </footer>
+        if (token) {
+            try {
+                const user = JSON.parse(atob(token.split('.')[1])); // Decode JWT fake
+                navUser.textContent = user.nom || "Mon Profil";
+                navUser.style.display = "inline-block";
+                navLogout.style.display = "inline-block";
+                navLogin.style.display = "none";
+                navRegister.style.display = "none";
+            } catch (e) {
+                console.error("Token invalide :", e);
+            }
+        } else {
+            navUser.style.display = "none";
+            navLogout.style.display = "none";
+            navLogin.style.display = "inline-block";
+            navRegister.style.display = "inline-block";
+        }
 
-  <script src="index.js"></script>
+        navLogout.addEventListener('click', (e) => {
+            e.preventDefault();
+            localStorage.removeItem('token');
+            window.location.href = 'login.html';
+        });
+    });
+    </script>
+
 </body>
 </html>

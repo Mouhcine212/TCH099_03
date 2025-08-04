@@ -1,0 +1,188 @@
+/* RESET GLOBAL */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #f4f4f4;
+}
+
+/* === HEADER SOBRE ET ÉLÉGANT === */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    background: rgba(255, 255, 255, 0.2); /* Transparence douce */
+    backdrop-filter: blur(8px); /* Légère glass effect */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 50px;
+    z-index: 10;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo img {
+    height: 40px;
+    transition: transform 0.3s ease;
+}
+
+/* Effet mignon au hover */
+.logo img:hover {
+    transform: rotate(-10deg) scale(1.05);
+}
+
+/* === NAVIGATION === */
+.nav ul {
+    display: flex;
+    list-style: none;
+    gap: 18px; /* Espacement réduit et harmonieux */
+    align-items: center;
+}
+
+.nav ul li a,
+#userName {
+    text-decoration: none;
+    color: #fff;
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 6px;
+    white-space: nowrap;
+    transition: background 0.3s ease, transform 0.2s ease, color 0.3s ease;
+}
+
+/* Hover doux et premium */
+.nav ul li a:hover,
+#userName:hover {
+    background: rgba(255, 255, 255, 0.15); /* Fond léger au hover */
+    transform: translateY(-2px); /* Légère levée */
+    color: #ffd166; /* Doré doux */
+}
+
+/* === HERO SECTION PREMIUM === */
+.hero {
+    flex: 1;
+    background: url("../assets/images/a82c4a8e54a02c391197fca8576aab84.jpg") no-repeat center center/cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    padding-top: 70px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Dégradé subtil sur le fond */
+.hero::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0.35), rgba(0,0,0,0));
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 40px 60px;
+    border-radius: 15px;
+    max-width: 600px;
+    width: 90%;
+    backdrop-filter: blur(6px); /* Effet verre léger */
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    animation: fadeIn 1s ease-in-out;
+}
+
+.hero-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    margin-bottom: 25px;
+    color: #f0f0f0;
+}
+
+/* === BOUTON CTA ÉLÉGANT === */
+.cta-btn {
+    padding: 12px 30px;
+    background: linear-gradient(45deg, #ff7b00, #ffb347);
+    color: white;
+    border-radius: 8px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.cta-btn:hover {
+    transform: translateY(-3px) scale(1.03);
+    background: linear-gradient(45deg, #ff9500, #ffc164);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+}
+
+/* === ANIMATION APPARITION === */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* === RESPONSIVE === */
+@media screen and (max-width: 900px) {
+    .nav ul {
+        gap: 10px;
+    }
+    .hero-content h2 {
+        font-size: 1.8rem;
+    }
+    .hero-content p {
+        font-size: 1rem;
+    }
+    .cta-btn {
+        padding: 10px 24px;
+        font-size: 0.9rem;
+    }
+}
+
+#userName {
+    text-transform: capitalize;
+}
+
+/* Réduction de l'espacement entre Nom et Déconnexion */
+.nav ul {
+    display: flex;
+    list-style: none;
+    gap: 16px; /* légèrement réduit */
+    align-items: center;
+}
+
+/* Derniers boutons collés un peu plus */
+#userName,
+#logoutLink {
+    padding: 6px 12px; /* plus compact */
+}
+
+/* Optionnel : rapprocher logout uniquement */
+#logoutLink {
+    margin-left: -4px; /* réduit l'espace entre Nom et Déconnexion */
+}

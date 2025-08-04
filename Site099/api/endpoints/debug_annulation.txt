@@ -1,0 +1,63 @@
+SCRIPT START
+RAW: {"reservation_id":6}
+JSON: Array
+(
+    [reservation_id] => 6
+)
+
+DB CONNECTED
+UPDATE SUCCESS
+SCRIPT START
+RAW: {"reservation_id":6}
+JSON: Array
+(
+    [reservation_id] => 6
+)
+
+DB CONNECTED
+UPDATE SUCCESS
+SCRIPT START
+RAW: {"reservation_id":6}
+JSON: Array
+(
+    [reservation_id] => 6
+)
+
+DB CONNECTED
+UPDATE SUCCESS
+SCRIPT START
+RAW: {"reservation_id":5}
+JSON: Array
+(
+    [reservation_id] => 5
+)
+
+DB CONNECTED
+UPDATE SUCCESS
+SCRIPT START
+RAW: {"reservation_id":6}
+JSON: Array
+(
+    [reservation_id] => 6
+)
+
+DB CONNECTED
+UPDATE SUCCESS
+SCRIPT START
+RAW: {"reservation_id":4}
+JSON: Array
+(
+    [reservation_id] => 4
+)
+
+DB CONNECTED
+UPDATE SUCCESS
+SCRIPT START
+RAW: {"reservation_id":7}
+JSON: Array
+(
+    [reservation_id] => 7
+)
+
+DB CONNECTED
+UPDATE SUCCESS

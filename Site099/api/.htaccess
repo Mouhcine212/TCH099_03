@@ -1,7 +1,4 @@
 RewriteEngine On
-
 SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
-
-RewriteCond %{REQUEST_URI} !(\.png|\.jpg|\.webp|\.gif|\.jpeg|\.zip|\.css|\.svg|\.js|\.pdf)$
-
+RewriteCond %{REQUEST_URI} !\.(png|jpg|jpeg|webp|gif|zip|css|svg|js|pdf|html)$ [NC]
 RewriteRule ^(.*)$ routes.php [QSA,L]

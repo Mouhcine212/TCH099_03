@@ -4,25 +4,53 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Inscription – FlightETS</title>
-  <link rel="stylesheet" href="style.css"/>
+
+  <!-- ✅ Favicon -->
+  <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg">
+
+  <!-- ✅ CSS principal -->
+  <link rel="stylesheet" href="inscription.css"/>
 </head>
 <body>
-  <div class="form-container">
+
+
+  <!-- === FORMULAIRE D'INSCRIPTION === -->
+  <div class="register-container">
     <h2>Créer un compte</h2>
     <p>Remplis ce formulaire pour t'inscrire :</p>
+
     <form id="registerForm">
-      <input type="email" id="email" placeholder="Adresse courriel" required />
-      <input type="password" id="password" placeholder="Mot de passe" required />
+      <label for="email">Adresse courriel</label>
+      <input type="email" id="email" placeholder="Ex: jean@example.com" required />
+
+      <label for="password">Mot de passe</label>
+      <input type="password" id="password" placeholder="••••••••••" required />
+
+      <label for="firstName">Prénom</label>
       <input type="text" id="firstName" placeholder="Prénom" required />
+
+      <label for="lastName">Nom</label>
       <input type="text" id="lastName" placeholder="Nom" required />
-      <input type="text" id="telephone" placeholder="Téléphone (facultatif)" />
-      <input type="date" id="dateNaissance" placeholder="Date de naissance" required />
-      <input type="text" id="passeport" placeholder="Numéro de passeport" required />
+
+      <label for="telephone">Téléphone (facultatif)</label>
+      <input type="text" id="telephone" placeholder="Ex: 514-123-4567" />
+
+      <label for="dateNaissance">Date de naissance</label>
+      <input type="date" id="dateNaissance" required />
+
+      <label for="passeport">Numéro de passeport</label>
+      <input type="text" id="passeport" placeholder="Ex: XA1234567" required />
 
       <button type="submit">Créer un compte</button>
+
+      <div id="errorMsg" class="error"></div>
+      <div id="successMsg" class="success"></div>
     </form>
+
     <p>Tu as déjà un compte ? <a href="login.html">Connexion</a></p>
   </div>
+
+  <!-- Scripts -->
   <script src="inscription.js"></script>
 </body>
 </html>

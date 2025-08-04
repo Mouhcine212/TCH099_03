@@ -1,0 +1,119 @@
+/* ===== NAVBAR PREMIUM ===== */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 12px 40px;
+
+    /* Fond semi-transparent + effet de blur */
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    z-index: 1000;
+    transition: background 0.3s ease;
+}
+
+.navbar:hover {
+    background: rgba(255, 255, 255, 0.85);
+}
+
+/* === Logo === */
+.navbar .logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.navbar .logo img {
+    height: 38px;
+    width: 38px;
+    object-fit: cover;
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.navbar .logo span {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #222;
+}
+
+/* === Liens de navigation === */
+.nav-links {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 28px; /* Espacement équilibré entre tous les liens */
+    margin: 0;
+    padding: 0;
+}
+
+/* Supprimer tout espace parasite autour des <li> */
+.nav-links li {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+/* Liens */
+.nav-links a {
+    text-decoration: none;
+    font-weight: 500;
+    color: #333;
+    white-space: nowrap;
+    transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.nav-links a:hover {
+    color: #ff7a00;
+    transform: translateY(-2px);
+}
+
+/* === Bouton Déconnexion === */
+#nav-logout {
+    padding: 6px 15px;
+    border-radius: 6px;
+    background: #ff7a00;
+    color: white !important;
+    font-weight: 600;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+#nav-logout:hover {
+    background: #e86c00;
+    transform: translateY(-2px);
+}
+
+/* === Responsive === */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 15px 25px;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        gap: 15px;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .nav-links li {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .nav-links a {
+        display: block;
+        width: 100%;
+    }
+}

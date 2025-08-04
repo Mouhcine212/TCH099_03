@@ -1,0 +1,115 @@
+/* === Style global === */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: url('../assets/images/843459aa7e677db64ddc760c03b8f7fe.jpg') no-repeat center center fixed;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+/* === Container principal === */
+.profile-container {
+  background: rgba(255, 255, 255, 0.88);
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.2);
+  width: 380px;
+  text-align: center;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Animation d'apparition douce */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* === Titre et sous-titre === */
+.profile-container h2 {
+  margin-bottom: 5px;
+  color: #333;
+  font-size: 28px;
+}
+
+.profile-container p {
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #555;
+}
+
+/* === Formulaires === */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+label {
+  font-weight: bold;
+  text-align: left;
+  margin-bottom: 3px;
+  color: #333;
+  font-size: 14px;
+}
+
+input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+input:focus {
+  outline: none;
+  border-color: #ffa726;
+  box-shadow: 0 0 5px #ffb74d;
+}
+
+/* === Boutons === */
+button {
+  padding: 10px;
+  margin-top: 5px;
+  background-color: #ffa726;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.1s;
+}
+
+button:hover {
+  background-color: #fb8c00;
+  transform: translateY(-2px);
+}
+
+/* Bouton de déconnexion */
+.logout {
+  background-color: #ff7043;
+}
+
+.logout:hover {
+  background-color: #f4511e;
+}
+
+/* Boutons côte à côte pour profil */
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+/* Messages d'erreur/succès */
+#message, #passwordMessage {
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* Couleurs de succès et d'erreur gérées par JS */
+

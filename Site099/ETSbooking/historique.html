@@ -2,35 +2,53 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Historique – FlightETS</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mes réservations - FlightETS</title>
+
+  <!-- Favicon -->
+  <link rel="icon" href="../assets/images/favicon.svg" type="image/svg+xml">
+
+  <!-- CSS global -->
   <link rel="stylesheet" href="style.css">
+  <!-- CSS historique -->
+  <link rel="stylesheet" href="historique.css">
+
+  <!-- Icônes Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
 
-  <header>
-    <div class="container">
-      <h1><i class="fas fa-plane-departure"></i> FlightETS</h1>
-      <nav>
-        <a href="index.html"><i class="fas fa-home"></i> Accueil</a>
-        <a href="historique.html"><i class="fas fa-clock-rotate-left"></i> Historique</a>
-        <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
-      </nav>
+  <!-- HEADER -->
+  <header class="main-header">
+    <div class="logo-container">
+      <i class="fa-solid fa-plane-departure"></i>
+      <h1>FlightETS</h1>
     </div>
+    <nav class="main-nav">
+      <a href="index.html"><i class="fa-solid fa-house"></i> Accueil</a>
+      <a href="vols.html"><i class="fa-solid fa-magnifying-glass"></i> Recherche de vol</a>
+      <a href="dashboard.html"><i class="fa-solid fa-user"></i> Mon profil</a>
+      <button id="logoutBtn" class="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Déconnexion</button>
+    </nav>
   </header>
 
-  <main>
-    <section class="search-section">
-      <h2><i class="fas fa-clock-rotate-left"></i> Vos vols réservés</h2>
-      <div id="historyResults"></div>
-    </section>
+  <!-- CONTENU -->
+  <main class="container">
+    <h2 class="page-title">Mes réservations</h2>
+    <p class="subtitle">Gérez vos réservations et suivez le statut de vos vols.</p>
+    
+    <div id="historyResults" class="history-container">
+      <!-- Les réservations apparaîtront ici via historique.js -->
+    </div>
   </main>
 
-  <footer>
-    <p>&copy; 2025 FlightETS. Tous droits réservés.</p>
+  <!-- FOOTER -->
+  <footer class="main-footer">
+    <p>&copy; 2025 FlightETS - Tous droits réservés</p>
   </footer>
 
+  <!-- Script JS -->
   <script src="historique.js"></script>
+
 </body>
 </html>

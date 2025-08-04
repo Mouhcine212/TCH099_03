@@ -4,7 +4,7 @@ Array
     [Connection] => keep-alive
     [Content-Length] => 109
     [sec-ch-ua-platform] => "Windows"
-    [Authorization] => Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZW1haWwiOiJtb3VoY2luZUBnbWFpbC5jb20iLCJub20iOiJtb3VoY2luZSBqZWFuIiwiZXhwIjoxNzUzOTk3ODcxfQ.-tC32llnUu3Z--eLg-04Jeo9v8h4l54-Dmsj2vsXUfg
+    [Authorization] => Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZW1haWwiOiJtb3VoY2luZUBnbWFpbC5jb20iLCJub20iOiJtb3VoY2luZSBqZWFuIiwiZXhwIjoxNzU0MjA4Njk2fQ.GK1CRdHXjhWgrH0yyED8uNHpfZQR1dEEfF-3MAkZO7Q
     [User-Agent] => Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36
     [sec-ch-ua] => "Not)A;Brand";v="8", "Chromium";v="138", "Google Chrome";v="138"
     [Content-Type] => application/json
@@ -17,5 +17,5 @@ Array
     [Referer] => http://localhost/ETSbooking/paiement.html
     [Accept-Encoding] => gzip, deflate, br, zstd
     [Accept-Language] => fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7
-    [Cookie] => pma_lang=fr; phpMyAdmin=f0043ea4e530dd4a993d57042375520e
+    [Cookie] => pma_lang=fr
 )

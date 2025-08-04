@@ -14,3 +14,9 @@ get($URL . '/get_flight_by_id/$id', 'endpoints/get_flight_by_id.php');
 post($URL . '/paiement', 'endpoints/paiement.php');
 
 get($URL . '/historique', 'endpoints/historique.php');
+
+post($URL . '/annuler_reservation', 'endpoints/annuler_reservation.php');
+
+post($URL . '/update_user', 'endpoints/update_user.php');
+
+post($URL . '/change_password', 'endpoints/change_password.php');

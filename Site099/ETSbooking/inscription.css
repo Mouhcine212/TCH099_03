@@ -12,37 +12,37 @@ body {
   justify-content: center;
   align-items: center;
 
-  /* === Fond image lumineuse === */
+  /* Fond lumineux avec la même image que le login */
   background: url("../assets/images/843459aa7e677db64ddc760c03b8f7fe.jpg") no-repeat center center/cover;
 }
 
 /* CONTAINER DU FORMULAIRE */
-.login-container {
-  background: rgba(255, 255, 255, 0.3); /* effet glass clair */
-  backdrop-filter: blur(12px); /* verre flouté */
+.register-container {
+  background: rgba(255, 255, 255, 0.3); /* effet verre clair */
+  backdrop-filter: blur(12px);
   border-radius: 15px;
   padding: 40px 50px;
-  width: 350px;
+  width: 420px;
   text-align: center;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
   animation: fadeIn 0.8s ease-in-out;
 }
 
 /* TITRE */
-.login-container h2 {
+.register-container h2 {
   font-size: 2rem;
-  color: #333; /* plus sombre pour fond clair */
+  color: #333;
   margin-bottom: 8px;
 }
 
-.login-container p {
+.register-container p {
   color: #555;
   font-size: 0.95rem;
   margin-bottom: 25px;
 }
 
 /* LABELS */
-.login-container label {
+.register-container label {
   display: block;
   text-align: left;
   color: #333;
@@ -52,7 +52,7 @@ body {
 }
 
 /* INPUTS */
-.login-container input {
+.register-container input {
   width: 100%;
   padding: 10px 12px;
   margin-bottom: 18px;
@@ -65,12 +65,12 @@ body {
   transition: box-shadow 0.3s;
 }
 
-.login-container input:focus {
+.register-container input:focus {
   box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
 }
 
-/* BOUTON DE CONNEXION */
-.login-container button {
+/* BOUTON D'INSCRIPTION */
+.register-container button {
   width: 100%;
   padding: 12px;
   border: none;
@@ -84,7 +84,7 @@ body {
   margin-bottom: 15px;
 }
 
-.login-container button:hover {
+.register-container button:hover {
   transform: translateY(-2px);
   background: linear-gradient(45deg, #ff9500, #ffc164);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
@@ -103,20 +103,19 @@ body {
   margin-bottom: 10px;
 }
 
-/* LIEN CRÉER COMPTE */
-.login-container a {
+/* LIEN RETOUR LOGIN */
+.register-container a {
   color: #ff7b00;
   font-weight: 600;
   text-decoration: none;
 }
 
-.login-container a:hover {
+.register-container a:hover {
   text-decoration: underline;
 }
 
-/* ANIMATION D'APPARITION */
+/* ANIMATION APPARITION */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
-
