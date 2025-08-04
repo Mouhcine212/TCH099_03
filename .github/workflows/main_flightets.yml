@@ -13,21 +13,21 @@ jobs:
       contents: read
 
     steps:
-      # 1. Récupère le code du repo
+      # 1. Récupère ton code
       - uses: actions/checkout@v4
 
-      # 2. Installe PHP 8.2
+      # 2. Setup PHP (utile si tu veux tester avant déploiement)
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
 
-      # 3. Upload du site complet comme artifact
+      # 3. Crée un artifact avec le contenu complet de Site099
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: php-app
-          path: Site099   # 🔹 Inclut frontend + api PHP + .htaccess
+          path: Site099/    # ✅ équivalent de DOCUMENT_ROOT Docker
 
   deploy:
     runs-on: ubuntu-latest
@@ -37,11 +37,12 @@ jobs:
       contents: read
 
     steps:
-      # 1. Récupère l’artifact du job build
+      # 1. Récupère l'artifact depuis le job build
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: php-app
+          path: ./php-app   # ✅ On décompresse dans ./php-app
 
       # 2. Connexion à Azure
       - name: Login to Azure
@@ -51,10 +52,11 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_35DCFF0C07A5494C8AA7FAD9CEEAC3CF }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_911B245450084991839C47A7C4882D65 }}
 
-      # 3. Déploiement sur Azure Web App
+      # 3. Déploie sur Azure Web App
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'flightets'
           slot-name: 'Production'
-          package: .
+          package: ./php-app   # ✅ On déploie le contenu de Site099 comme wwwroot
+
