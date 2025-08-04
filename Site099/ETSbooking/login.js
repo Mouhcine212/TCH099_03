@@ -6,7 +6,7 @@ document.getElementById('loginForm').addEventListener('submit', async function (
   const motDePasse = document.getElementById('motDePasse').value;
 
   try {
-    const response = await fetch('https://flightets-gghremf5czh9d3ea.canadacentral-01.azurewebsites.net/api/endpoints/login.php', {
+    const response = await fetch('https://flightets-gghremf5czh9d3ea.canadacentral-01.azurewebsites.net/ETSbooking/api/endpoints/login.php', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
