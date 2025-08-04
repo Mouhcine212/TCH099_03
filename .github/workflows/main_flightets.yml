@@ -27,7 +27,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: php-app
-          path: Site099/**   # 🔹 Inclut frontend + api PHP + .htaccess
+          path: Site099/   # 🔹 Inclut frontend + api PHP + .htaccess
 
   deploy:
     runs-on: ubuntu-latest
