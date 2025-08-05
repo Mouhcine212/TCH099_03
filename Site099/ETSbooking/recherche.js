@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (dateDepart) body.dateDepart = dateDepart;
 
     try {
-      const res = await fetch('https://flightets-gghremf5czh9d3ea.canadacentral-01.azurewebsites.net/api/search_flights', {
+      const res = await fetch('https://flightets-gghremf5czh9d3ea.canadacentral-01.azurewebsites.net/api/endpoints/search_flights,php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

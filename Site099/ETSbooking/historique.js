@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function annulerReservation(idReservation, cardElement) {
     if (!confirm("Voulez-vous vraiment annuler cette réservation ?")) return;
 
-    fetch('https://flightets-gghremf5czh9d3ea.canadacentral-01.azurewebsites.net/api/annuler_reservation', {
+    fetch('https://flightets-gghremf5czh9d3ea.canadacentral-01.azurewebsites.net/api/endpoints/annuler_reservation.php', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

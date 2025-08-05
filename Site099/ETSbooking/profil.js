@@ -145,7 +145,7 @@ passwordForm.addEventListener('submit', async (e) => {
   }
 
   try {
-    const res = await fetch('https://flightets-gghremf5czh9d3ea.canadacentral-01.azurewebsites.net/api/change_password', {
+    const res = await fetch('https://flightets-gghremf5czh9d3ea.canadacentral-01.azurewebsites.net/api/endpoints/change_password.php', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
