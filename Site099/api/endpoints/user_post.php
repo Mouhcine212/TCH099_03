@@ -17,8 +17,8 @@ file_put_contents($logFile, "Requête brute: " . $rawInput . PHP_EOL, FILE_APPEN
 error_log("🔹 [user_post.php] Début traitement - Données brutes : $rawInput");
 
 // Charger dépendances
-require_once(__DIR__ . '/db/Database.php');
-require_once(__DIR__ . '/jwt/utils.php');
+require_once(__DIR__ . '/../db/Database.php');
+require_once(__DIR__ . '/../jwt/utils.php');
 
 try {
     $data = json_decode($rawInput, true);
