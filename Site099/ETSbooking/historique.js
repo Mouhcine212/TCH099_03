@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function loadHistorique() {
-    fetch('https://flightets-gghremf5czh9d3ea.canadacentral-01.azurewebsites.net/api/historique', {
+    fetch('https://flightets-gghremf5czh9d3ea.canadacentral-01.azurewebsites.net/api/endpoints/historique.php', {
       headers: { 'Authorization': `Bearer ${token}` }
     })
       .then(res => res.json())
