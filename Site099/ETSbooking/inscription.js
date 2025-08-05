@@ -25,9 +25,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     telephone = telephone.replace(/\D/g, '');
 
+    // Sauvegarde localStorage
     localStorage.setItem('dateNaissance', dateNaissance);
     localStorage.setItem('passeport', passeport);
 
+    // Validation
     if (!motDePasse || motDePasse.length < 6) {
       errorMsg.textContent = "Le mot de passe doit contenir au moins 6 caractères.";
       document.getElementById('password').style.border = '2px solid #ff4d4d';
@@ -52,6 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
+    // Prépare les données à envoyer
     const userData = {
       email,
       motDePasse,
@@ -60,8 +63,10 @@ document.addEventListener('DOMContentLoaded', () => {
       telephone
     };
 
+    console.log("Données envoyées :", userData);
+
     try {
-      const res = await fetch( '../api/endpoints/user_post.php', {
+      const res = await fetch('https://flightets-gghremf5czh9d3ea.canadacentral-01.azurewebsites.net/Site099/api/endpoints/user_post.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -70,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       const data = await res.json();
-      console.log(data);
+      console.log("Réponse serveur :", data);
 
       if (res.ok) {
         successMsg.textContent = "Inscription réussie ! Redirection vers la connexion...";
@@ -83,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
     } catch (err) {
-      console.error(err);
+      console.error("Erreur fetch :", err);
       errorMsg.textContent = 'Erreur de connexion au serveur.';
     }
   });
