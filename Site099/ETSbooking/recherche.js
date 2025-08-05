@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  fetch('https://flightets-gghremf5czh9d3ea.canadacentral-01.azurewebsites.net/api/get_airports', {
+  fetch('https://flightets-gghremf5czh9d3ea.canadacentral-01.azurewebsites.net/api/endpoints/get_airports', {
     headers: { 'Authorization': `Bearer ${token}` }
   })
     .then(res => res.json())
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (dateDepart) body.dateDepart = dateDepart;
 
     try {
-      const res = await fetch('https://flightets-gghremf5czh9d3ea.canadacentral-01.azurewebsites.net/api/endpoints/search_flights,php', {
+      const res = await fetch('https://flightets-gghremf5czh9d3ea.canadacentral-01.azurewebsites.net/api/endpoints/search_flights.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
