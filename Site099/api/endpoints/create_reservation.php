@@ -25,7 +25,7 @@ if (!$decoded || (!isset($decoded['id']) && !isset($decoded['user_id']))) {
 
 $user_id = $decoded['user_id'] ?? $decoded['id'];
 
-// Lecture du JSON
+// Lecture JSON
 $data = json_decode(file_get_contents('php://input'), true);
 $flight_id = $data['id_vol'] ?? null;
 $seat_number = $data['numero_siege'] ?? null;
@@ -37,10 +37,12 @@ if (!$flight_id || !$seat_number) {
 }
 
 // ============================
-// Connexion MySQL SSL sans vérification
+// Connexion MySQL SSL avec certificat
 // ============================
+$ssl_cert = __DIR__ . '/../db/BaltimoreCyberTrustRoot.crt.pem';
+
 $conn = mysqli_init();
-mysqli_ssl_set($conn, NULL, NULL, NULL, NULL, NULL);
+mysqli_ssl_set($conn, NULL, NULL, $ssl_cert, NULL, NULL);
 
 if (!mysqli_real_connect(
     $conn,
@@ -50,31 +52,26 @@ if (!mysqli_real_connect(
     DB_NAME,
     3306,
     NULL,
-    MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT
+    MYSQLI_CLIENT_SSL
 )) {
     http_response_code(500);
-    echo json_encode(['error' => 'Erreur connexion DB SSL : '.mysqli_connect_error()]);
+    echo json_encode(['error' => 'Erreur SSL MySQL : '.mysqli_connect_error()]);
     exit;
 }
 
 // ============================
 // Insertion de la réservation
 // ============================
-try {
-    $stmt = $conn->prepare("
-        INSERT INTO RESERVATIONS (ID_UTILISATEUR, ID_VOL, NUMERO_SIEGE, STATUT)
-        VALUES (?, ?, ?, 'Confirmée')
-    ");
-    $stmt->bind_param('iis', $user_id, $flight_id, $seat_number);
-    $stmt->execute();
+$stmt = $conn->prepare("
+    INSERT INTO RESERVATIONS (ID_UTILISATEUR, ID_VOL, NUMERO_SIEGE, STATUT)
+    VALUES (?, ?, ?, 'Confirmée')
+");
+$stmt->bind_param('iis', $user_id, $flight_id, $seat_number);
+$stmt->execute();
 
-    echo json_encode([
-        'success' => true,
-        'id_reservation' => $conn->insert_id
-    ]);
-} catch (Exception $e) {
-    http_response_code(500);
-    echo json_encode(['error' => 'Erreur serveur: ' . $e->getMessage()]);
-}
+echo json_encode([
+    'success' => true,
+    'id_reservation' => $conn->insert_id
+]);
 
 $conn->close();
