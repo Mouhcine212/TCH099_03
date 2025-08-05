@@ -1,3 +1,3 @@
 <?php
-header('Location: ETSbooking/index.html'); 
-exit;
+echo "FlightETS API is running on Azure";
+?>
