@@ -7,6 +7,11 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Content-Type");
 header("Access-Control-Allow-Methods: POST");
 header('Content-Type: application/json');
+// Debug : log des données reçues
+$rawInput = file_get_contents('php://input');
+$logFile = __DIR__ . '/log_inscription.txt';
+file_put_contents($logFile, date('Y-m-d H:i:s') . " - Requête reçue: " . $rawInput . PHP_EOL, FILE_APPEND);
+
 
 require_once(__DIR__ . '/../db/Database.php');
 require_once(__DIR__ . '/../jwt/utils.php');
