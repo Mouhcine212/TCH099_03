@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background_blue_pastel"
+    android:padding="24dp"
+    android:gravity="center">
+
+    <!-- 🏠 Logo et titre FlightETS -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="8dp"
+        app:cardBackgroundColor="@android:color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp"
+            android:gravity="center">
+
+            <!-- ✈️ Icône de vol -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="✈️"
+                android:textSize="48sp"
+                android:layout_marginBottom="8dp" />
+
+            <!-- 🏷️ Nom de l'app -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="FlightETS"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                android:textColor="@color/primary_blue"
+                android:layout_marginBottom="4dp" />
+
+            <!-- 👋 Message de bienvenue -->
+            <TextView
+                android:id="@+id/welcomeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bienvenue sur FlightETS ! ✈️"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_dark"
+                android:gravity="center"
+                android:layout_marginBottom="8dp" />
+
+            <!-- 📝 Sous-titre -->
+            <TextView
+                android:id="@+id/subtitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Votre partenaire pour voyager partout dans le monde"
+                android:textSize="14sp"
+                android:textColor="@color/text_gray"
+                android:gravity="center"
+                android:layout_marginBottom="16dp" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- 🎮 Section des boutons principaux -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="24dp">
+
+        <!-- 🎯 Bouton principal (Réserver vol / Dashboard) -->
+        <Button
+            android:id="@+id/reserverVolButton"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="🔍 Réserver un vol"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:background="@drawable/button_orange_rounded"
+            android:layout_marginBottom="16dp"
+            android:elevation="4dp" />
+
+        <!-- 📋 Bouton Historique (visible seulement si connecté) -->
+        <Button
+            android:id="@+id/historiqueButton"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="📋 Mes réservations"
+            android:textSize="16sp"
+            android:textColor="@color/primary_blue"
+            android:background="@drawable/button_blue_outline"
+            android:layout_marginBottom="16dp"
+            android:visibility="gone" />
+
+        <!-- 🚪 Bouton Login/Logout -->
+        <Button
+            android:id="@+id/loginButton"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="Se connecter"
+            android:textSize="16sp"
+            android:textColor="@color/primary_blue"
+            android:background="@drawable/button_blue_outline" />
+
+    </LinearLayout>
+
+    <!-- 🌟 Section informations -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp"
+        app:cardBackgroundColor="@android:color/white"
+        android:layout_marginTop="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🌟 Pourquoi choisir FlightETS ?"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_dark"
+                android:layout_marginBottom="12dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="✅ Réservation en ligne simple et rapide\n✅ Support client 24/7\n✅ Meilleurs prix garantis\n✅ Modifications gratuites"
+                android:textSize="14sp"
+                android:textColor="@color/text_gray"
+                android:lineSpacingExtra="4dp" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>
