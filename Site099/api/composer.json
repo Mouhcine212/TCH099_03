@@ -1,0 +1,5 @@
+{
+  "name": "flightets/app",
+  "description": "Application PHP FlightETS déployée sur Azure",
+  "require": {}
+}
