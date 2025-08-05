@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_beach"
+    android:padding="24dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <!-- White card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/white_card"
+            android:orientation="vertical"
+            android:padding="24dp"
+            android:layout_marginTop="32dp"
+            android:elevation="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rechercher un vol"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#F57C00"
+                android:layout_gravity="center"
+                android:layout_marginBottom="16dp" />
+
+            <EditText
+                android:id="@+id/destinationInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Destination"
+                android:inputType="text"
+                android:background="@drawable/edittext_background"
+                android:padding="12dp"
+                android:layout_marginBottom="16dp" />
+
+            <EditText
+                android:id="@+id/dateInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Date (AAAA-MM-JJ)"
+                android:focusable="false"
+                android:clickable="true"
+                android:background="@drawable/edittext_background"
+                android:padding="12dp"
+                android:layout_marginBottom="16dp" />
+
+            <Button
+                android:id="@+id/searchButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Rechercher"
+                android:backgroundTint="#F57C00"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- RecyclerView results -->
+        <TextView
+            android:id="@+id/noResultsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Aucun résultat trouvé"
+            android:textColor="#FF0000"
+            android:visibility="gone"
+            android:layout_marginTop="24dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp" />
+    </LinearLayout>
+</ScrollView>
