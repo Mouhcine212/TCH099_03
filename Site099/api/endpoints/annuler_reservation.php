@@ -6,6 +6,7 @@ header('Access-Control-Allow-Headers: Authorization, Content-Type');
 require_once __DIR__ . '/../db/config.php';
 require_once __DIR__ . '/../jwt/utils.php';
 
+// --- Vérif Auth ---
 $headers = getallheaders();
 $authHeader = $headers['Authorization'] ?? '';
 
@@ -26,6 +27,7 @@ if (!$userData || (!isset($userData['id']) && !isset($userData['id_utilisateur']
 
 $idUtilisateur = $userData['id_utilisateur'] ?? $userData['id'];
 
+// --- Récupération des données JSON ---
 $data = json_decode(file_get_contents("php://input"), true);
 $idReservation = $data['id_reservation'] ?? null;
 
@@ -35,9 +37,9 @@ if (!$idReservation) {
     exit();
 }
 
-/* --- Connexion MySQL avec SSL --- */
+// --- Connexion MySQL en SSL (même logique que process_payment) ---
 $conn = mysqli_init();
-mysqli_ssl_set($conn, NULL, NULL, __DIR__ . '/../db/DigiCertGlobalRootCA.crt.pem', NULL, NULL);
+mysqli_ssl_set($conn, NULL, NULL, NULL, NULL, NULL);
 
 if (!mysqli_real_connect(
     $conn,
@@ -54,7 +56,7 @@ if (!mysqli_real_connect(
     exit();
 }
 
-/* --- Vérifier que la réservation appartient à l'utilisateur --- */
+// --- Vérifier que la réservation appartient à l'utilisateur ---
 $stmt = $conn->prepare("
     SELECT r.ID_RESERVATION, pay.ID_PAIEMENT, pay.STATUT AS STATUT_PAIEMENT
     FROM RESERVATIONS r
@@ -68,19 +70,21 @@ $result = $stmt->get_result();
 if ($result->num_rows === 0) {
     http_response_code(403);
     echo json_encode(['error' => 'Réservation introuvable ou non autorisée']);
+    $stmt->close();
+    $conn->close();
     exit();
 }
 
 $reservation = $result->fetch_assoc();
 $stmt->close();
 
-/* --- Annuler la réservation --- */
+// --- Annuler la réservation ---
 $stmt = $conn->prepare("UPDATE RESERVATIONS SET STATUT = 'Annulée' WHERE ID_RESERVATION = ?");
 $stmt->bind_param('i', $idReservation);
 $stmt->execute();
 $stmt->close();
 
-/* --- Gérer remboursement si payé --- */
+// --- Gérer remboursement si payé ---
 if ($reservation['STATUT_PAIEMENT'] === 'Payé' && $reservation['ID_PAIEMENT']) {
     $stmt = $conn->prepare("UPDATE PAIEMENTS SET STATUT = 'Remboursé' WHERE ID_PAIEMENT = ?");
     $stmt->bind_param('i', $reservation['ID_PAIEMENT']);
@@ -91,6 +95,7 @@ if ($reservation['STATUT_PAIEMENT'] === 'Payé' && $reservation['ID_PAIEMENT']) 
     $paiementStatut = $reservation['STATUT_PAIEMENT'] ?? 'Non payé';
 }
 
+// --- Réponse ---
 echo json_encode([
     'success' => true,
     'id_reservation' => $idReservation,
@@ -99,3 +104,5 @@ echo json_encode([
 ]);
 
 $conn->close();
+?>
+
