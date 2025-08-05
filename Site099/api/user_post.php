@@ -13,8 +13,8 @@ $logFile = __DIR__ . '/log_inscription.txt';
 file_put_contents($logFile, date('Y-m-d H:i:s') . " - Requête reçue: " . $rawInput . PHP_EOL, FILE_APPEND);
 
 
-require_once(__DIR__ . '/../db/Database.php');
-require_once(__DIR__ . '/../jwt/utils.php');
+require_once(__DIR__ . '/db/Database.php');
+require_once(__DIR__ . '/jwt/utils.php');
 
 try {
     $data = json_decode(file_get_contents('php://input'), true);
