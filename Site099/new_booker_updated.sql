@@ -87,13 +87,39 @@ INSERT INTO AEROPORTS (NOM_AEROPORT, VILLE, CODE_IATA) VALUES
 ('Montréal-Trudeau', 'Montréal', 'YUL'),
 ('Toronto Pearson', 'Toronto', 'YYZ'),
 ('Paris Charles-de-Gaulle', 'Paris', 'CDG'),
-('Vancouver International', 'Vancouver', 'YVR');
+('Vancouver International', 'Vancouver', 'YVR'),
+('John F. Kennedy International', 'New York', 'JFK'),
+('Narita International', 'Tokyo', 'NRT'),
+('Heathrow Airport', 'Londres', 'LHR'),
+('Dubai International', 'Dubaï', 'DXB'),
+('Frankfurt Airport', 'Francfort', 'FRA'),
+('São Paulo–Guarulhos International', 'São Paulo', 'GRU'),
+('Los Angeles International', 'Los Angeles', 'LAX'),
+('Sydney Kingsford Smith', 'Sydney', 'SYD'),
+('Hong Kong International', 'Hong Kong', 'HKG'),
+('Singapore Changi Airport', 'Singapour', 'SIN'),
+('Amsterdam Schiphol Airport', 'Amsterdam', 'AMS'),
+('Madrid-Barajas Adolfo Suárez Airport', 'Madrid', 'MAD'),
+('Rome Fiumicino Airport', 'Rome', 'FCO');
 
 -- Vols
 INSERT INTO VOLS (ID_AEROPORT_ORIGINE, ID_AEROPORT_DESTINATION, HEURE_DEPART, HEURE_ARRIVEE, COMPAGNIE, NUMERO_VOL, PRIX, CLASSE, SIEGES_DISPONIBLES) VALUES
 (1, 2, '2025-08-01 08:00:00', '2025-08-01 09:30:00', 'Air Canada', 'AC101', 199.99, 'Économie', 50),
 (1, 3, '2025-08-05 18:00:00', '2025-08-06 06:30:00', 'Air France', 'AF351', 799.50, 'Affaires', 10),
-(2, 4, '2025-08-03 13:00:00', '2025-08-03 16:30:00', 'WestJet', 'WS200', 350.00, 'Première', 5);
+(2, 4, '2025-08-03 13:00:00', '2025-08-03 16:30:00', 'WestJet', 'WS200', 350.00, 'Première', 5),
+(2, 5, '2025-08-01 11:30:00', '2025-08-01 19:55:00', 'Lufthansa', 'LU2000', 454.22, 'Affaires', 36),
+(1, 11, '2025-08-01 12:00:00', '2025-08-01 20:26:00', 'Air Canada', 'AI2001', 298.77, 'Économie', 52),
+(4, 17, '2025-08-02 20:00:00', '2025-08-03 04:22:00', 'Air Canada', 'AI2002', 811.62, 'Économie', 17),
+(2, 13, '2025-08-02 21:30:00', '2025-08-03 08:07:00', 'American Airlines', 'AM2003', 434.37, 'Affaires', 29),
+(3, 10, '2025-08-03 09:30:00', '2025-08-03 18:22:00', 'American Airlines', 'AM2004', 863.96, 'Économie', 20),
+(3, 8, '2025-08-03 13:00:00', '2025-08-03 15:51:00', 'Delta Airlines', 'DE2005', 461.88, 'Première', 27),
+(4, 13, '2025-08-04 22:30:00', '2025-08-05 03:36:00', 'Lufthansa', 'LU2006', 379.92, 'Affaires', 8),
+(3, 8, '2025-08-04 12:30:00', '2025-08-04 18:34:00', 'Delta Airlines', 'DE2007', 515.21, 'Première', 10),
+(2, 15, '2025-08-05 19:00:00', '2025-08-06 00:36:00', 'Emirates', 'EM2008', 299.59, 'Première', 54),
+(1, 7, '2025-08-05 06:00:00', '2025-08-05 11:16:00', 'Emirates', 'EM2009', 1000.16, 'Première', 14),
+(4, 5, '2025-08-06 14:30:00', '2025-08-06 17:10:00', 'Air Canada', 'AI2010', 242.34, 'Affaires', 33),
+(2, 14, '2025-08-06 20:00:00', '2025-08-06 21:59:00', 'Delta Airlines', 'DE2011', 243.97, 'Première', 52),
+(3, 12, '2025-08-07 10:00:00', '2025-08-07 12:43:00', 'Emirates', 'EM2012', 514.05, 'Économie', 21);
 
 -- Utilisateurs
 INSERT INTO UTILISATEURS (NOM, COURRIEL, MOT_DE_PASSE_HASH, TELEPHONE) VALUES
@@ -116,5 +142,5 @@ INSERT INTO PASSAGERS (ID_RESERVATION, NOM_COMPLET, DATE_NAISSANCE, NUMERO_PASSE
 -- Paiements
 INSERT INTO PAIEMENTS (ID_RESERVATION, DATE_PAIEMENT, MONTANT, METHODE, STATUT) VALUES
 (1, '2025-07-25 10:00:00', 199.99, 'Carte', 'Payé'),
-(2, '2025-07-26 14:30:00', 799.50, 'PayPal', 'Payé'),
-(3, '2025-07-27 09:15:00', 350.00, 'VirementBancaire', 'Remboursé');
+(2, '2025-07-26 14:30:00', 799.50, 'Carte', 'Payé'),
+(3, '2025-07-27 09:15:00', 350.00, 'Carte', 'Remboursé');

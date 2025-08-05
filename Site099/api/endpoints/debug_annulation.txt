@@ -61,3 +61,12 @@ JSON: Array
 
 DB CONNECTED
 UPDATE SUCCESS
+SCRIPT START
+RAW: {"reservation_id":27}
+JSON: Array
+(
+    [reservation_id] => 27
+)
+
+DB CONNECTED
+UPDATE SUCCESS
