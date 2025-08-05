@@ -6,7 +6,7 @@ header('Access-Control-Allow-Headers: Authorization, Content-Type');
 require_once __DIR__ . '/../db/config.php';
 require_once __DIR__ . '/../jwt/utils.php';
 
-// Vérification token JWT
+// --- Vérif token JWT ---
 $headers = getallheaders();
 if (!isset($headers['Authorization'])) {
     http_response_code(401);
@@ -25,7 +25,7 @@ if (!$decoded || (!isset($decoded['id']) && !isset($decoded['user_id']))) {
 
 $user_id = $decoded['user_id'] ?? $decoded['id'];
 
-// Lecture JSON
+// --- Lecture JSON ---
 $data = json_decode(file_get_contents('php://input'), true);
 $flight_id = $data['id_vol'] ?? null;
 $seat_number = $data['numero_siege'] ?? null;
@@ -37,13 +37,14 @@ if (!$flight_id || !$seat_number) {
 }
 
 // ============================
-// Connexion MySQL SSL avec certificat
+// Connexion MySQL SSL (bypass vérification du certificat)
 // ============================
-$ssl_cert = __DIR__ . '/../db/BaltimoreCyberTrustRoot.crt.pem';
-
 $conn = mysqli_init();
-mysqli_ssl_set($conn, NULL, NULL, $ssl_cert, NULL, NULL);
 
+// Désactive la vérification du certificat
+mysqli_options($conn, MYSQLI_OPT_SSL_VERIFY_SERVER_CERT, false);
+
+// Force SSL
 if (!mysqli_real_connect(
     $conn,
     DB_HOST,
@@ -59,9 +60,7 @@ if (!mysqli_real_connect(
     exit;
 }
 
-// ============================
-// Insertion de la réservation
-// ============================
+// --- Insertion réservation ---
 $stmt = $conn->prepare("
     INSERT INTO RESERVATIONS (ID_UTILISATEUR, ID_VOL, NUMERO_SIEGE, STATUT)
     VALUES (?, ?, ?, 'Confirmée')
