@@ -1,10 +1,10 @@
 <?php
 interface Config
 {
-    const DB_HOST = "flightets-sql.mysql.database.azure.com"; // Serveur Azure
-    const DB_USER = "adminflight@flightets-sql";              // Utilisateur Azure (avec suffixe)
-    const DB_PWD  = "Mouhcine123";                            // Mot de passe Azure
-    const DB_NAME = "flightets";                     // Nom de la base
+    const DB_HOST = "flightets-sql.mysql.database.azure.com"; 
+    const DB_USER = "adminflight";          // ✅ sans @flightets-sql
+    const DB_PWD  = "Mouhcine123";          
+    const DB_NAME = "flightets";            
 }
 
 define('DB_HOST', Config::DB_HOST);
