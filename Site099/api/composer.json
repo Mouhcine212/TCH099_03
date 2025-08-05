@@ -1,5 +1,12 @@
 {
-  "name": "flightets/app",
-  "description": "Application PHP FlightETS déployée sur Azure",
-  "require": {}
+  "name": "flightets/api",
+  "description": "FlightETS PHP API for Azure",
+  "require": {
+    "php": ">=8.0"
+  },
+  "scripts": {
+    "post-root-package-install": [
+      "echo 'FlightETS ready for Azure'"
+    ]
+  }
 }
