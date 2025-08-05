@@ -35,13 +35,26 @@ if (!$idReservation) {
     exit();
 }
 
-$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-if ($conn->connect_error) {
+/* --- Connexion MySQL avec SSL --- */
+$conn = mysqli_init();
+mysqli_ssl_set($conn, NULL, NULL, __DIR__ . '/../db/DigiCertGlobalRootCA.crt.pem', NULL, NULL);
+
+if (!mysqli_real_connect(
+    $conn,
+    DB_HOST,
+    DB_USER,
+    DB_PASS,
+    DB_NAME,
+    3306,
+    NULL,
+    MYSQLI_CLIENT_SSL
+)) {
     http_response_code(500);
-    echo json_encode(['error' => 'Erreur de connexion DB']);
+    echo json_encode(['error' => 'Erreur connexion DB SSL : ' . mysqli_connect_error()]);
     exit();
 }
 
+/* --- Vérifier que la réservation appartient à l'utilisateur --- */
 $stmt = $conn->prepare("
     SELECT r.ID_RESERVATION, pay.ID_PAIEMENT, pay.STATUT AS STATUT_PAIEMENT
     FROM RESERVATIONS r
@@ -61,11 +74,13 @@ if ($result->num_rows === 0) {
 $reservation = $result->fetch_assoc();
 $stmt->close();
 
+/* --- Annuler la réservation --- */
 $stmt = $conn->prepare("UPDATE RESERVATIONS SET STATUT = 'Annulée' WHERE ID_RESERVATION = ?");
 $stmt->bind_param('i', $idReservation);
 $stmt->execute();
 $stmt->close();
 
+/* --- Gérer remboursement si payé --- */
 if ($reservation['STATUT_PAIEMENT'] === 'Payé' && $reservation['ID_PAIEMENT']) {
     $stmt = $conn->prepare("UPDATE PAIEMENTS SET STATUT = 'Remboursé' WHERE ID_PAIEMENT = ?");
     $stmt->bind_param('i', $reservation['ID_PAIEMENT']);
