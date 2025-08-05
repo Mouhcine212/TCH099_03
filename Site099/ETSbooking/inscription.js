@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     try {
       const res = await fetch(
-        'https://flightets-gghremf5czh9d3ea.canadacentral-01.azurewebsites.net/api/user_post.php',
+        'https://flightets-gghremf5czh9d3ea.canadacentral-01.azurewebsites.net/api/user',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
