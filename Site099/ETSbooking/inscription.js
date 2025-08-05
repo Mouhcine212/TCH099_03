@@ -56,8 +56,9 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log("🔹 Données envoyées :", userData);
 
     try {
+      // ✅ On pointe vers le fichier PHP réel
       const res = await fetch(
-        'https://flightets-gghremf5czh9d3ea.canadacentral-01.azurewebsites.net/api/user',
+        'https://flightets-gghremf5czh9d3ea.canadacentral-01.azurewebsites.net/api/endpoints/user_post.php',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
