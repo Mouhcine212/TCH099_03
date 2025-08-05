@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
       console.log('Réponse paiement:', data);
 
       if (data.success) {
-        alert('💳 Paiement réussi !');
+        alert('Paiement réussi !');
         localStorage.removeItem('reservationData');
         window.location.href = "historique.html";
       } else {

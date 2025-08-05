@@ -25,11 +25,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     telephone = telephone.replace(/\D/g, '');
 
-    // Sauvegarde localStorage pour réservation future
     localStorage.setItem('dateNaissance', dateNaissance);
     localStorage.setItem('passeport', passeport);
 
-    // Validation de base
     if (!motDePasse || motDePasse.length < 6) {
       errorMsg.textContent = "Le mot de passe doit contenir au moins 6 caractères.";
       document.getElementById('password').style.border = '2px solid #ff4d4d';
@@ -56,7 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log("🔹 Données envoyées :", userData);
 
     try {
-      // ✅ On pointe vers le fichier PHP réel
       const res = await fetch(
         'https://flightets-gghremf5czh9d3ea.canadacentral-01.azurewebsites.net/api/endpoints/user_post.php',
         {
@@ -68,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       console.log("🔹 Code HTTP :", res.status);
 
-      const text = await res.text(); // on lit brut pour debug
+      const text = await res.text(); 
       console.log("🔹 Réponse brute :", text);
 
       let data;
@@ -87,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
     } catch (err) {
-      console.error("❌ Erreur fetch :", err);
+      console.error(" Erreur fetch :", err);
       errorMsg.textContent = 'Erreur de connexion au serveur.';
     }
   });

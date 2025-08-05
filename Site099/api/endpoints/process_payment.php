@@ -6,7 +6,6 @@ header('Access-Control-Allow-Headers: Authorization, Content-Type');
 require_once __DIR__ . '/../db/config.php';
 require_once __DIR__ . '/../jwt/utils.php';
 
-// --- Vérif Auth ---
 $headers = getallheaders();
 if (!isset($headers['Authorization'])) {
     http_response_code(401);
@@ -32,7 +31,6 @@ if (!$decoded || !isset($decoded['id'])) {
 
 $user_id = $decoded['id'];
 
-// --- Récupération JSON ---
 $data = json_decode(file_get_contents("php://input"), true);
 $id_reservation = $data['id_reservation'] ?? null;
 $montant = $data['montant'] ?? null;
@@ -44,7 +42,6 @@ if (!$id_reservation || !$montant) {
     exit;
 }
 
-// --- Connexion MySQL avec SSL ---
 $conn = mysqli_init();
 mysqli_ssl_set($conn, NULL, NULL, NULL, NULL, NULL);
 
@@ -63,7 +60,6 @@ if (!mysqli_real_connect(
     exit;
 }
 
-// --- Vérif réservation ---
 $stmt = $conn->prepare("SELECT ID_RESERVATION FROM RESERVATIONS WHERE ID_RESERVATION = ? AND ID_UTILISATEUR = ?");
 $stmt->bind_param('ii', $id_reservation, $user_id);
 $stmt->execute();
@@ -78,13 +74,11 @@ if ($result->num_rows === 0) {
 }
 $stmt->close();
 
-// --- Mise à jour du statut réservation ---
 $stmt = $conn->prepare("UPDATE RESERVATIONS SET STATUT = 'Confirmée' WHERE ID_RESERVATION = ?");
 $stmt->bind_param('i', $id_reservation);
 $stmt->execute();
 $stmt->close();
 
-// --- Insertion paiement ---
 $stmt = $conn->prepare("
     INSERT INTO PAIEMENTS (ID_RESERVATION, DATE_PAIEMENT, MONTANT, METHODE, STATUT)
     VALUES (?, NOW(), ?, ?, 'Payé')
