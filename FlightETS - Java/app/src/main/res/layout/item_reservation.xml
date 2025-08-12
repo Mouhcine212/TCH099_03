@@ -1,6 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="6dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Compagnie - N° vol"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="#ff7a00"
+            android:layout_marginBottom="6dp" />
+
+        <TextView
+            android:id="@+id/tvRoute"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Origine (CODE) → Destination (CODE)"
+            android:layout_marginBottom="4dp" />
+
+        <TextView
+            android:id="@+id/tvDepart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Départ : 2025-01-01 10:00"
+            android:layout_marginBottom="2dp" />
+
+        <TextView
+            android:id="@+id/tvArrivee"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Arrivée : 2025-01-01 14:00"
+            android:layout_marginBottom="2dp" />
+
+        <TextView
+            android:id="@+id/tvSiege"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Siège : —"
+            android:layout_marginBottom="4dp" />
+
+        <TextView
+            android:id="@+id/tvStatut"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Statut : Confirmée"
+            android:textStyle="bold"
+            android:layout_marginBottom="2dp" />
+
+        <TextView
+            android:id="@+id/tvPaiement"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Paiement : Non payé"
+            android:layout_marginBottom="8dp" />
+
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:text="Annuler la réservation"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:background="@drawable/button_orange"
+            android:visibility="gone" />
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

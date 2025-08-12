@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.flightets">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -19,7 +20,7 @@
 
         <!-- Main launcher -->
         <activity
-            android:name=".AccueilActivity"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,10 +34,19 @@
         <!-- Search Flights -->
         <activity android:name=".SearchFlightActivity" />
 
-        <!-- Optional screens -->
+        <!-- Register screen -->
+        <activity android:name=".RegisterActivity" />
 
+        <!-- Profile -->
         <activity android:name=".ProfilActivity" />
 
+        <activity android:name=".ReservationActivity" />
+
+        <activity android:name=".PaiementActivity" />
+
+        <activity android:name=".ReservationListActivity" />
+
+        <activity android:name=".MonProfilActivity" />
 
     </application>
 

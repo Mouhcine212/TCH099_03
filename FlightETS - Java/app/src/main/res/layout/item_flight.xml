@@ -1,6 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- COMPAGNIE - NUMERO_VOL -->
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Air Canada - AC123"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="#111111" />
+
+        <!-- ORIGINE (CODE)  →  DESTINATION (CODE) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:id="@+id/tvRouteLeft"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Montréal (YUL)" />
+
+            <TextView
+                android:id="@+id/tvArrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="→"
+                android:paddingHorizontal="6dp" />
+
+            <TextView
+                android:id="@+id/tvRouteRight"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Paris (CDG)"
+                android:gravity="end" />
+        </LinearLayout>
+
+        <!-- Départ / Arrivée -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="6dp">
+
+            <TextView
+                android:id="@+id/tvDepart"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Départ : 2025-08-12 14:05" />
+
+            <TextView
+                android:id="@+id/tvArrivee"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Arrivée : 2025-08-13 02:15"
+                android:gravity="end" />
+        </LinearLayout>
+
+        <!-- Durée estimée -->
+        <TextView
+            android:id="@+id/tvDuree"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Durée estimée : 6h 30m"
+            android:textColor="#777777"
+            android:textStyle="italic"
+            android:layout_marginTop="4dp" />
+
+        <!-- Prix + Classe -->
+        <TextView
+            android:id="@+id/tvPriceClass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="450 $ - Économie"
+            android:textStyle="bold"
+            android:textColor="#1e3a8a"
+            android:layout_marginTop="8dp" />
+
+        <!-- Réserver -->
+        <Button
+            android:id="@+id/btnReserver"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:text="Réserver"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:background="@drawable/button_orange" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

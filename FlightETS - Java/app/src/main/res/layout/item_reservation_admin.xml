@@ -1,6 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Info client -->
+        <TextView
+            android:id="@+id/clientEmailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="👤 client@example.com"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="#1e3a8a"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Destination -->
+        <TextView
+            android:id="@+id/destinationText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="✈️ Montréal → Paris"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:layout_marginBottom="4dp" />
+
+        <!-- Date du vol -->
+        <TextView
+            android:id="@+id/dateVolText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="📅 2025-08-15 à 08:00"
+            android:textSize="14sp"
+            android:layout_marginBottom="4dp" />
+
+        <!-- Compagnie -->
+        <TextView
+            android:id="@+id/compagnieText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🏢 Air France - AF347"
+            android:textSize="14sp"
+            android:layout_marginBottom="4dp" />
+
+        <!-- Prix -->
+        <TextView
+            android:id="@+id/prixText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="💰 799.99$"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Statut -->
+        <TextView
+            android:id="@+id/statutText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="📋 En attente"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp" />
+
+        <!-- Date de reservation -->
+        <TextView
+            android:id="@+id/dateReservationText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="📝 Réservé le 2025-08-04"
+            android:textSize="12sp"
+            android:textColor="#666666"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Boutons admin -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/approveButton"
+                android:layout_width="0dp"
+                android:layout_height="36dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:text="✅ Approuver"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                android:background="#4CAF50"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true" />
+
+            <TextView
+                android:id="@+id/rejectButton"
+                android:layout_width="0dp"
+                android:layout_height="36dp"
+                android:layout_weight="1"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:text="❌ Rejeter"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                android:background="#F44336"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true" />
+
+            <TextView
+                android:id="@+id/detailsButton"
+                android:layout_width="0dp"
+                android:layout_height="36dp"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:text="📋 Détails"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                android:background="#FF9800"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

@@ -11,67 +11,15 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- En-tete avec bienvenue et navigation -->
-        <androidx.cardview.widget.CardView
+        <!-- Reusable header -->
+        <include
+            android:id="@+id/header"
+            layout="@layout/header_nav"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="6dp">
+            android:layout_marginBottom="16dp" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp"
-                android:background="#1e3a8a">
-
-                <TextView
-                    android:id="@+id/welcomeText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Bienvenue sur FlightETS ! ✈️"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/white"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="12dp" />
-
-                <!-- Boutons de navigation -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/historiqueButton"
-                        android:layout_width="0dp"
-                        android:layout_height="36dp"
-                        android:layout_weight="1"
-                        android:layout_marginEnd="8dp"
-                        android:text="📋 Mes réservations"
-                        android:textAllCaps="false"
-                        android:textSize="12sp"
-                        android:background="@drawable/button_transparent" />
-
-                    <Button
-                        android:id="@+id/logoutButton"
-                        android:layout_width="0dp"
-                        android:layout_height="36dp"
-                        android:layout_weight="1"
-                        android:layout_marginStart="8dp"
-                        android:text="🚪 Déconnexion"
-                        android:textAllCaps="false"
-                        android:textSize="12sp"
-                        android:background="@drawable/button_orange" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <!-- Carte de recherche -->
+        <!-- CARD 1: Search form -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -95,32 +43,34 @@
                     android:layout_gravity="center"
                     android:layout_marginBottom="16dp" />
 
-                <EditText
+                <!-- Origine -->
+                <AutoCompleteTextView
+                    android:id="@+id/originInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:hint="🛫 Aéroport de départ"
+                    android:inputType="textCapWords"
+                    android:background="@drawable/edittext_background"
+                    android:padding="12dp"
+                    android:layout_marginBottom="12dp" />
+
+                <!-- Destination -->
+                <AutoCompleteTextView
                     android:id="@+id/destinationInput"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:hint="🌍 Destination (ex: Paris, Toronto)"
-                    android:inputType="text"
+                    android:hint="🛬 Aéroport d'arrivée"
+                    android:inputType="textCapWords"
                     android:background="@drawable/edittext_background"
                     android:padding="12dp"
-                    android:layout_marginBottom="16dp" />
+                    android:layout_marginBottom="12dp" />
 
+                <!-- Date de départ -->
                 <EditText
                     android:id="@+id/dateInput"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:hint="📅 Date de départ (cliquez pour sélectionner)"
-                    android:focusable="false"
-                    android:clickable="true"
-                    android:background="@drawable/edittext_background"
-                    android:padding="12dp"
-                    android:layout_marginBottom="16dp" />
-
-                <EditText
-                    android:id="@+id/dateInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:hint="📅 Date d'arrivée (cliquez pour sélectionner)"
+                    android:hint="📅 Date de départ (tap pour choisir)"
                     android:focusable="false"
                     android:clickable="true"
                     android:background="@drawable/edittext_background"
@@ -131,35 +81,60 @@
                     android:id="@+id/searchButton"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:text="🔍 Rechercher des vols"
+                    android:text="Rechercher"
                     android:textAllCaps="false"
                     android:textColor="@android:color/white"
                     android:textStyle="bold"
                     android:background="@drawable/button_orange" />
-
             </LinearLayout>
-
         </androidx.cardview.widget.CardView>
 
-        <!-- Message aucun resultat -->
-        <TextView
-            android:id="@+id/noResultsText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="😞 Aucun vol trouvé\n\nEssayez une autre destination ou date"
-            android:textSize="16sp"
-            android:textColor="#666666"
-            android:textAlignment="center"
-            android:layout_gravity="center"
-            android:layout_marginTop="32dp"
-            android:visibility="gone" />
-
-        <!-- Liste des resultats de vols -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+        <!-- CARD 2: Results (hidden initially) -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/resultsCard"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="6dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/resultsTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Résultats"
+                    android:textColor="#1e3a8a"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp" />
+
+                <!-- No results message (toggle visibility in code) -->
+                <TextView
+                    android:id="@+id/noResultsText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="😞 Aucun vol trouvé\n\nEssayez une autre origine/destination ou date"
+                    android:textAlignment="center"
+                    android:textColor="#666666"
+                    android:textSize="15sp"
+                    android:layout_marginBottom="8dp"
+                    android:visibility="gone" />
+
+                <!-- Results list -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/resultsRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    android:overScrollMode="never" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
     </LinearLayout>
-
 </ScrollView>

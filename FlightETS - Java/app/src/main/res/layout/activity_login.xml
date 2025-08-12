@@ -76,26 +76,35 @@
                 android:id="@+id/passwordInput"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
+                android:layout_marginBottom="24dp"
                 android:background="@drawable/background_login"
                 android:hint="••••••••"
                 android:inputType="textPassword"
                 android:paddingHorizontal="16dp"
                 android:textColor="#333333"
                 android:textColorHint="#999999"
-                android:textSize="14sp"
-                android:layout_marginBottom="24dp" />
+                android:textSize="14sp" />
 
             <!--  Bouton Connexion comme web -->
             <Button
                 android:id="@+id/loginButton"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
+                android:layout_marginBottom="20dp"
                 android:background="@drawable/button_orange"
                 android:text="Se connecter"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="20dp" />
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/errorMsg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text=""
+                android:textColor="#ff0000"
+                android:textSize="14sp" />
 
             <!--  Lien inscription style web -->
             <LinearLayout
